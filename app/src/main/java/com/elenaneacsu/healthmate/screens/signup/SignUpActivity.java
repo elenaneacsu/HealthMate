@@ -33,6 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         mCustomViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mCustomViewPager);
+        mCustomViewPager.setEnableSwipe(false);
     }
 
     private void initView() {
@@ -48,7 +49,7 @@ public class SignUpActivity extends AppCompatActivity {
         mAdapter.addFragment(GoalFragment.newInstance(bundle), "1");
         mAdapter.addFragment(ActivityLevelFragment.newInstance(bundle), "2");
         mAdapter.addFragment(GenderBirthFragment.newInstance(bundle), "3");
-        mAdapter.addFragment(new WeightHeightFragment(), "4");
+        mAdapter.addFragment(WeightHeightFragment.newInstance(bundle), "4");
         mAdapter.addFragment(new AccountDetailsFragment(), "5");
     }
 }
