@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.signup.fragments.ActivityLevelFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
+
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/textview_signup"
+            android:text="@string/how_active_are_you"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_notactive"
+            style="@style/button_answer"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="@string/not_very_active_n_spend_most_of_the_day_sitting"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <Button
+            android:id="@+id/btn_lightlyactive"
+            style="@style/button_answer"
+            android:text="@string/lightly_active_n_spend_a_good_part_of_the_day_on_your_feet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_notactive" />
+
+        <Button
+            android:id="@+id/btn_active"
+            style="@style/button_answer"
+            android:text="@string/active_nspend_a_good_part_of_the_day_doing_some_physical_activity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_lightlyactive" />
+
+        <Button
+            android:id="@+id/btn_veryactive"
+            style="@style/button_answer"
+            android:text="@string/very_active_nspend_most_of_the_day_doing_heavy_physical_activity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_active" />
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

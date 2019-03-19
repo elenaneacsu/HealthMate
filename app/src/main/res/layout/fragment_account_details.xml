@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.signup.fragments.AccountDetailsFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
+
+        <EditText
+            android:id="@+id/edittext_email"
+            style="@style/edittext"
+            android:drawableStart="@drawable/ic_edittext_email_drawable"
+            android:drawableLeft="@drawable/ic_edittext_email_drawable"
+            android:ems="10"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edittext_password"
+            style="@style/edittext"
+            android:drawableStart="@drawable/ic_edittext_password_drawable"
+            android:drawableLeft="@drawable/ic_edittext_password_drawable"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edittext_email" />
+
+        <Button
+            android:id="@+id/btn_login"
+            style="@style/button_login"
+            android:text="@string/sign_up"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edittext_password" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

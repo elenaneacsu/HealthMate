@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
-    tools:context=".LogInActivity">
+    tools:context=".LogInActivity"
+    android:fitsSystemWindows="true">
 
     <ImageView
         android:id="@+id/imageview_logo"
@@ -26,7 +27,7 @@
         style="@style/edittext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="44dp"
         android:drawableStart="@drawable/ic_edittext_email_drawable"
         android:drawableLeft="@drawable/ic_edittext_email_drawable"
         android:ems="10"
@@ -69,7 +70,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_login"
+        android:onClick="goToSignUp"/>
 
 
 </android.support.constraint.ConstraintLayout>

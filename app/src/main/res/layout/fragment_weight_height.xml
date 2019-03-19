@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.signup.fragments.WeightHeightFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
+
+
+        <TextView
+            android:id="@+id/textview_weight"
+            style="@style/textview_signup"
+            android:text="@string/how_much_do_you_weigh"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edittext_weight"
+            style="@style/edittext_signup"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_weight" />
+
+        <TextView
+            android:id="@+id/textview_desiredweight"
+            style="@style/textview_signup"
+            android:text="@string/what_is_your_goal_weight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edittext_weight" />
+
+        <EditText
+            android:id="@+id/edittext_desiredweight"
+            style="@style/edittext_signup"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_desiredweight" />
+
+        <TextView
+            android:id="@+id/textview_height"
+            style="@style/textview_signup"
+            android:text="@string/how_tall_are_you_cm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edittext_desiredweight" />
+
+        <EditText
+            android:id="@+id/edittext_height"
+            style="@style/edittext_signup"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_height" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

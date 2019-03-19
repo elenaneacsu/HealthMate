@@ -4,4 +4,35 @@
     <string name="email">Email</string>
     <string name="login">LogIn</string>
     <string name="don_t_have_an_account_create_one">Don\'t have an account? Create one</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="what_is_your_goal">What is your goal?</string>
+    <string name="lose_weight">Lose Weight</string>
+    <string name="maintain_weight">Maintain Weight</string>
+    <string name="gain_weight">Gain Weight</string>
+    <string name="not_very_active_n_spend_most_of_the_day_sitting">Not very active\nSpend most of the day sitting</string>
+    <string name="lightly_active_n_spend_a_good_part_of_the_day_on_your_feet">Lightly active\nSpend a good part of the day on your feet</string>
+    <string name="active_nspend_a_good_part_of_the_day_doing_some_physical_activity">Active\nSpend a good part of the day doing some physical activity</string>
+    <string name="very_active_nspend_most_of_the_day_doing_heavy_physical_activity">Very active\nSpend most of the day doing heavy physical activity</string>
+    <string name="how_active_are_you">How active are you?</string>
+    <string name="i_am">I AM</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="when_where_you_born">When where you born?</string>
+    <string name="pick_a_date">Pick a date</string>
+    <string name="how_much_do_you_weigh">How much do you weigh? (Kg)</string>
+    <string name="what_is_your_goal_weight">What is your goal weight? (Kg)</string>
+    <string name="how_tall_are_you_cm">How tall are you? (Cm)</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="maintain">maintain</string>
+    <string name="lose">lose</string>
+    <string name="gain">gain</string>
+    <string name="not_active">not active</string>
+    <string name="lightly_active">lightly active</string>
+    <string name="active">active</string>
+    <string name="very_active">very active</string>
+    <string name="m">M</string>
+    <string name="f">F</string>
+    <string name="select_birthdate">Select birthdate</string>
 </resources>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.signup.fragments.GenderBirthFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
+
+
+        <TextView
+            android:id="@+id/textview_question"
+            style="@style/textview_signup"
+            android:text="@string/i_am"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_male"
+            style="@style/button_answer"
+            android:layout_width="0dp"
+            android:text="@string/male"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_question" />
+
+        <Button
+            android:id="@+id/btn_female"
+            style="@style/button_answer"
+            android:layout_width="0dp"
+            android:text="@string/female"
+            app:layout_constraintBaseline_toBaselineOf="@+id/btn_male"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="192dp" />
+
+        <TextView
+            android:id="@+id/textview_birth"
+            style="@style/textview_signup"
+            android:text="@string/when_where_you_born"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_male" />
+
+        <Button
+            android:id="@+id/btn_birthdate"
+            style="@style/button_answer"
+            android:text="@string/pick_a_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_birth" />
+
+        <TextView
+            android:id="@+id/textview_birthdate"
+            style="@style/textview_signup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_birthdate" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>
