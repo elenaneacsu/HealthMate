@@ -10,17 +10,21 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.elenaneacsu.healthmate.R;
 import com.elenaneacsu.healthmate.screens.entities.User;
 import com.elenaneacsu.healthmate.screens.signup.SignUpActivity;
+import com.elenaneacsu.healthmate.utils.Constants;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -30,6 +34,9 @@ import java.util.Locale;
 
 import static com.elenaneacsu.healthmate.utils.Constants.SELECTED_DATE;
 import static com.elenaneacsu.healthmate.utils.Constants.USER;
+import static com.elenaneacsu.healthmate.utils.GetThemeColors.getThemeAccentColor;
+import static com.elenaneacsu.healthmate.utils.GetThemeColors.getThemePrimaryColor;
+import static com.elenaneacsu.healthmate.utils.ToastUtil.showToast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,9 +47,14 @@ public class GenderBirthFragment extends Fragment {
     private Button mBtnMale;
     private Button mBtnFemale;
     private Button mBtnBirthdate;
+    private ImageButton mBtnNext;
+    private ImageButton mBtnBack;
     private TextView mTextViewBirthdate;
     private User user;
     public SignUpActivity signUpActivity;
+
+    private boolean enableNextGender = false;
+    private boolean enableNextBirthdate = false;
 
     public static final int REQUEST_CODE = 1;
 
@@ -60,10 +72,10 @@ public class GenderBirthFragment extends Fragment {
         mBtnMale = view.findViewById(R.id.btn_male);
         mBtnFemale = view.findViewById(R.id.btn_female);
         mBtnBirthdate = view.findViewById(R.id.btn_birthdate);
+        mBtnNext = view.findViewById(R.id.btn_next);
+        mBtnBack = view.findViewById(R.id.btn_back);
         mTextViewBirthdate = view.findViewById(R.id.textview_birthdate);
         signUpActivity = (SignUpActivity) getActivity();
-
-        signUpActivity.mCustomViewPager.setEnableSwipe(false);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -88,9 +100,9 @@ public class GenderBirthFragment extends Fragment {
         mBtnMale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signUpActivity.mCustomViewPager.setEnableSwipe(true);
                 user.setGender(getString(R.string.m));
                 setButtonsDesign(mBtnMale, mBtnFemale);
+                enableNextGender = true;
             }
         });
 
@@ -99,7 +111,7 @@ public class GenderBirthFragment extends Fragment {
             public void onClick(View v) {
                 setButtonsDesign(mBtnFemale, mBtnMale);
                 user.setGender(getString(R.string.f));
-                signUpActivity.mCustomViewPager.setEnableSwipe(true);
+                enableNextGender = true;
             }
         });
 
@@ -109,6 +121,29 @@ public class GenderBirthFragment extends Fragment {
                 DialogFragment newFragment = new DatePickerFragment();
                 newFragment.setTargetFragment(GenderBirthFragment.this, REQUEST_CODE);
                 newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.select_birthdate));
+                enableNextBirthdate = true;
+            }
+        });
+
+        mBtnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!enableNextGender) {
+                    showToast(getContext(), getString(R.string.select_gender));
+                } else if(!enableNextBirthdate) {
+                    showToast(getContext(), getString(R.string.pick_birthdate));
+                } else {
+                    signUpActivity.mView3.setBackgroundColor(getThemeAccentColor(getContext()));
+                    initNextFragment();
+                }
+            }
+        });
+
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initBackFragment();
+                signUpActivity.mView3.setBackgroundColor(Color.WHITE);
             }
         });
     }
@@ -121,7 +156,6 @@ public class GenderBirthFragment extends Fragment {
             try {
                 Date birthdate = dateFormat.parse(selectedDate);
                 user.setBirthdate(birthdate);
-                Log.d(TAG, "mytest: "+user.toString());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -129,16 +163,28 @@ public class GenderBirthFragment extends Fragment {
         }
     }
 
-    public static int getThemePrimaryColor(final Context context) {
-        final TypedValue value = new TypedValue();
-        context.getTheme().resolveAttribute(R.attr.colorPrimary, value, true);
-        return value.data;
-    }
-
     private void setButtonsDesign(Button buttonOne, Button buttonTwo) {
         buttonOne.setBackgroundResource(R.drawable.button_rounded_color_accent);
         buttonOne.setTextColor(Color.WHITE);
         buttonTwo.setBackgroundResource(R.drawable.button_rounded);
         buttonTwo.setTextColor(getThemePrimaryColor(getContext()));
+    }
+
+    private void initNextFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.USER, user);
+        FragmentManager fragmentManager = signUpActivity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.placeholder, WeightHeightFragment.newInstance(bundle));
+        fragmentTransaction.commit();
+    }
+
+    private void initBackFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.USER, user);
+        FragmentManager fragmentManager = signUpActivity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.placeholder, ActivityLevelFragment.newInstance(bundle));
+        fragmentTransaction.commit();
     }
 }

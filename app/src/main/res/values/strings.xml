@@ -49,4 +49,8 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="choose_option">Please choose an option!</string>
+    <string name="select_gender">Please select the gender you mostly identify with</string>
+    <string name="pick_birthdate">Please select your birth date!</string>
+    <string name="supply_values">Please supply values for all the fields!</string>
 </resources>

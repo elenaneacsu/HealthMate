@@ -7,17 +7,24 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.elenaneacsu.healthmate.R;
 import com.elenaneacsu.healthmate.screens.entities.User;
 import com.elenaneacsu.healthmate.screens.signup.SignUpActivity;
+import com.elenaneacsu.healthmate.utils.Constants;
 
 import static com.elenaneacsu.healthmate.utils.Constants.USER;
+import static com.elenaneacsu.healthmate.utils.GetThemeColors.getThemeAccentColor;
+import static com.elenaneacsu.healthmate.utils.GetThemeColors.getThemePrimaryColor;
+import static com.elenaneacsu.healthmate.utils.ToastUtil.showToast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,8 +35,12 @@ public class ActivityLevelFragment extends Fragment {
     private Button mBtnLightlyActive;
     private Button mBtnActive;
     private Button mBtnVeryActive;
+    private ImageButton mBtnNext;
+    private ImageButton mBtnBack;
     private User user;
     public SignUpActivity signUpActivity;
+
+    private boolean enableNext = false;
 
     public ActivityLevelFragment() {
         // Required empty public constructor
@@ -44,9 +55,9 @@ public class ActivityLevelFragment extends Fragment {
         mBtnLightlyActive = view.findViewById(R.id.btn_lightlyactive);
         mBtnActive = view.findViewById(R.id.btn_active);
         mBtnVeryActive = view.findViewById(R.id.btn_veryactive);
+        mBtnNext = view.findViewById(R.id.btn_next);
+        mBtnBack = view.findViewById(R.id.btn_back);
         signUpActivity = (SignUpActivity) getActivity();
-
-        signUpActivity.mCustomViewPager.setEnableSwipe(false);
 
         Bundle bundle = getArguments();
         if(bundle!=null) {
@@ -71,9 +82,9 @@ public class ActivityLevelFragment extends Fragment {
         mBtnNotActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signUpActivity.mCustomViewPager.setEnableSwipe(true);
                 setButtonsDesign(mBtnNotActive, mBtnLightlyActive, mBtnActive, mBtnVeryActive);
                 user.setActivityLevel(getString(R.string.not_active));
+                enableNext = true;
             }
         });
 
@@ -82,7 +93,7 @@ public class ActivityLevelFragment extends Fragment {
             public void onClick(View v) {
                 setButtonsDesign(mBtnLightlyActive, mBtnNotActive, mBtnActive, mBtnVeryActive);
                 user.setActivityLevel(getString(R.string.lightly_active));
-                signUpActivity.mCustomViewPager.setEnableSwipe(true);
+                enableNext = true;
             }
         });
 
@@ -91,7 +102,7 @@ public class ActivityLevelFragment extends Fragment {
             public void onClick(View v) {
                 setButtonsDesign(mBtnActive, mBtnNotActive, mBtnLightlyActive, mBtnVeryActive);
                 user.setActivityLevel(getString(R.string.active));
-                signUpActivity.mCustomViewPager.setEnableSwipe(true);
+                enableNext = true;
             }
         });
 
@@ -100,16 +111,31 @@ public class ActivityLevelFragment extends Fragment {
             public void onClick(View v) {
                 setButtonsDesign(mBtnVeryActive, mBtnNotActive, mBtnLightlyActive, mBtnActive);
                 user.setActivityLevel(getString(R.string.very_active));
-                signUpActivity.mCustomViewPager.setEnableSwipe(true);
+                enableNext = true;
+            }
+        });
+
+        mBtnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!enableNext) {
+                    showToast(getContext(), getString(R.string.choose_option));
+                } else {
+                    signUpActivity.mView2.setBackgroundColor(getThemeAccentColor(getContext()));
+                    initNextFragment();
+                }
+            }
+        });
+
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initBackFragment();
+                signUpActivity.mView2.setBackgroundColor(Color.WHITE);
             }
         });
     }
 
-    public static int getThemePrimaryColor(final Context context) {
-        final TypedValue value = new TypedValue();
-        context.getTheme().resolveAttribute(R.attr.colorPrimary, value, true);
-        return value.data;
-    }
 
     private void setButtonsDesign(Button buttonOne, Button buttonTwo, Button buttonThree, Button buttonFour) {
         buttonOne.setBackgroundResource(R.drawable.button_rounded_color_accent);
@@ -120,6 +146,24 @@ public class ActivityLevelFragment extends Fragment {
         buttonThree.setTextColor(getThemePrimaryColor(getContext()));
         buttonFour.setBackgroundResource(R.drawable.button_rounded);
         buttonFour.setTextColor(getThemePrimaryColor(getContext()));
+    }
+
+    private void initNextFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.USER, user);
+        FragmentManager fragmentManager = signUpActivity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.placeholder, GenderBirthFragment.newInstance(bundle));
+        fragmentTransaction.commit();
+    }
+
+    private void initBackFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.USER, user);
+        FragmentManager fragmentManager = signUpActivity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.placeholder, GoalFragment.newInstance(bundle));
+        fragmentTransaction.commit();
     }
 
 }

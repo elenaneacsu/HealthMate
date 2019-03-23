@@ -1,8 +1,11 @@
 package com.elenaneacsu.healthmate.screens.signup;
 
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.elenaneacsu.healthmate.R;
 import com.elenaneacsu.healthmate.screens.adapters.SignUpTabAdapter;
@@ -16,10 +19,11 @@ import com.elenaneacsu.healthmate.utils.Constants;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private SignUpTabAdapter mAdapter;
-    private TabLayout mTabLayout;
-    public CustomViewPager mCustomViewPager;
-
+    public View mView1;
+    public View mView2;
+    public View mView3;
+    public View mView4;
+    public View mView5;
     private User user;
 
     @Override
@@ -27,28 +31,25 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        user = new User();
         initView();
-        initAdapter();
-
-        mCustomViewPager.setAdapter(mAdapter);
-        mTabLayout.setupWithViewPager(mCustomViewPager);
-        mCustomViewPager.setEnableSwipe(false);
+        initFragment();
     }
 
     private void initView() {
-        mTabLayout = findViewById(R.id.tablayout_signup);
-        mCustomViewPager = findViewById(R.id.customviewpager_signup);
-        user = new User();
+        mView1 = findViewById(R.id.view1);
+        mView2 = findViewById(R.id.view2);
+        mView3 = findViewById(R.id.view3);
+        mView4 = findViewById(R.id.view4);
+        mView5 = findViewById(R.id.view5);
     }
 
-    private void initAdapter() {
+    private void initFragment() {
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constants.USER, user);
-        mAdapter = new SignUpTabAdapter(getSupportFragmentManager(), bundle);
-        mAdapter.addFragment(GoalFragment.newInstance(bundle), "1");
-        mAdapter.addFragment(ActivityLevelFragment.newInstance(bundle), "2");
-        mAdapter.addFragment(GenderBirthFragment.newInstance(bundle), "3");
-        mAdapter.addFragment(WeightHeightFragment.newInstance(bundle), "4");
-        mAdapter.addFragment(AccountDetailsFragment.newInstance(bundle), "5");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.placeholder, GoalFragment.newInstance(bundle));
+        fragmentTransaction.commit();
     }
 }
