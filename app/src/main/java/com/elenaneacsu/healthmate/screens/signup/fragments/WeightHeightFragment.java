@@ -14,7 +14,7 @@ import com.elenaneacsu.healthmate.R;
 import com.elenaneacsu.healthmate.screens.entities.User;
 import com.elenaneacsu.healthmate.screens.signup.SignUpActivity;
 
-import static com.elenaneacsu.healthmate.screens.utils.Constants.USER;
+import static com.elenaneacsu.healthmate.utils.Constants.USER;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +26,7 @@ public class WeightHeightFragment extends Fragment {
     private EditText mEditTextHeight;
     private User user;
     public SignUpActivity signUpActivity;
+    private static final String TAG = "mytest";
 
     public WeightHeightFragment() {
         // Required empty public constructor

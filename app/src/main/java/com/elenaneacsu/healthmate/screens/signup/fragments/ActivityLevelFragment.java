@@ -16,9 +16,8 @@ import android.widget.Button;
 import com.elenaneacsu.healthmate.R;
 import com.elenaneacsu.healthmate.screens.entities.User;
 import com.elenaneacsu.healthmate.screens.signup.SignUpActivity;
-import com.elenaneacsu.healthmate.screens.utils.Constants;
 
-import static com.elenaneacsu.healthmate.screens.utils.Constants.USER;
+import static com.elenaneacsu.healthmate.utils.Constants.USER;
 
 /**
  * A simple {@link Fragment} subclass.

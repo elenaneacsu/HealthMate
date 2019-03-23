@@ -36,7 +36,7 @@
             app:layout_constraintTop_toBottomOf="@+id/edittext_email" />
 
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_signup"
             style="@style/button_login"
             android:text="@string/sign_up"
             app:layout_constraintEnd_toEndOf="parent"

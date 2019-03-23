@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,14 +28,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import static com.elenaneacsu.healthmate.screens.utils.Constants.SELECTED_DATE;
-import static com.elenaneacsu.healthmate.screens.utils.Constants.USER;
+import static com.elenaneacsu.healthmate.utils.Constants.SELECTED_DATE;
+import static com.elenaneacsu.healthmate.utils.Constants.USER;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class GenderBirthFragment extends Fragment {
 
+    private static final String TAG = "mytest";
     private Button mBtnMale;
     private Button mBtnFemale;
     private Button mBtnBirthdate;
@@ -119,6 +121,7 @@ public class GenderBirthFragment extends Fragment {
             try {
                 Date birthdate = dateFormat.parse(selectedDate);
                 user.setBirthdate(birthdate);
+                Log.d(TAG, "mytest: "+user.toString());
             } catch (ParseException e) {
                 e.printStackTrace();
             }

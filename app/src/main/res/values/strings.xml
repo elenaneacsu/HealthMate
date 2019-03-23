@@ -35,4 +35,18 @@
     <string name="m">M</string>
     <string name="f">F</string>
     <string name="select_birthdate">Select birthdate</string>
+    <string name="enter_password">Please enter a password</string>
+    <string name="enter_email">Please add a valid email</string>
+    <string name="password_too_short">Password must have at least 6 characters!</string>
+    <string name="signup_error">Error while trying to sign up</string>
+    <string name="success_signup">Signed up successfully!</string>
+    <string name="verify_email">Verify your email!</string>
+    <string name="wrong_credentials">Wrong credentials</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>

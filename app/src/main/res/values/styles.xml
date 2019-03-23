@@ -14,23 +14,22 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="SignUpToolbarTheme"
-        parent="@style/ThemeOverlay.AppCompat.Dark">
+    <style name="SignUpToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark">
         <item name="colorControlNormal">@android:color/white</item>
         <item name="titleTextColor">@android:color/white</item>
     </style>
 
     <style name="edittext">
-    <item name="android:layout_width">match_parent</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:layout_marginRight">32dp</item>
-    <item name="android:layout_marginLeft">32dp</item>
-    <item name="android:layout_marginTop">8dp</item>
-    <item name="android:background">@drawable/edittext_shape</item>
-    <item name="android:drawablePadding">16dp</item>
-    <item name="android:textColor">@android:color/white</item>
-    <item name="android:textColorHint">@color/transparent_hint</item>
-</style>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">32dp</item>
+        <item name="android:layout_marginLeft">32dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:background">@drawable/edittext_shape</item>
+        <item name="android:drawablePadding">16dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@color/transparent_hint</item>
+    </style>
 
     <style name="edittext_signup">
         <item name="android:layout_width">match_parent</item>
@@ -88,5 +87,14 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">20sp</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

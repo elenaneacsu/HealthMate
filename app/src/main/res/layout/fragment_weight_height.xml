@@ -22,7 +22,7 @@
 
         <EditText
             android:id="@+id/edittext_weight"
-            style="@style/edittext_signup"
+            style="@style/edittext"
             android:ems="10"
             android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@
 
         <EditText
             android:id="@+id/edittext_desiredweight"
-            style="@style/edittext_signup"
+            style="@style/edittext"
             android:ems="10"
             android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
 
         <EditText
             android:id="@+id/edittext_height"
-            style="@style/edittext_signup"
+            style="@style/edittext"
             android:ems="10"
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"

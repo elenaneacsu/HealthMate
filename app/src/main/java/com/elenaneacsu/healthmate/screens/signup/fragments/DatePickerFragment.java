@@ -3,21 +3,17 @@ package com.elenaneacsu.healthmate.screens.signup.fragments;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 
-import com.elenaneacsu.healthmate.screens.utils.Constants;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
-import static com.elenaneacsu.healthmate.screens.utils.Constants.SELECTED_DATE;
+import static com.elenaneacsu.healthmate.utils.Constants.SELECTED_DATE;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
     final Calendar calendar = Calendar.getInstance();

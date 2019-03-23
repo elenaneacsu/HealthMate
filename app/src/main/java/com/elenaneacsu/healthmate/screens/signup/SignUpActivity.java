@@ -1,7 +1,6 @@
 package com.elenaneacsu.healthmate.screens.signup;
 
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -13,7 +12,7 @@ import com.elenaneacsu.healthmate.screens.signup.fragments.ActivityLevelFragment
 import com.elenaneacsu.healthmate.screens.signup.fragments.GenderBirthFragment;
 import com.elenaneacsu.healthmate.screens.signup.fragments.GoalFragment;
 import com.elenaneacsu.healthmate.screens.signup.fragments.WeightHeightFragment;
-import com.elenaneacsu.healthmate.screens.utils.Constants;
+import com.elenaneacsu.healthmate.utils.Constants;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -50,6 +49,6 @@ public class SignUpActivity extends AppCompatActivity {
         mAdapter.addFragment(ActivityLevelFragment.newInstance(bundle), "2");
         mAdapter.addFragment(GenderBirthFragment.newInstance(bundle), "3");
         mAdapter.addFragment(WeightHeightFragment.newInstance(bundle), "4");
-        mAdapter.addFragment(new AccountDetailsFragment(), "5");
+        mAdapter.addFragment(AccountDetailsFragment.newInstance(bundle), "5");
     }
 }
