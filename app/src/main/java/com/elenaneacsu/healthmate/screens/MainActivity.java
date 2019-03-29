@@ -1,5 +1,7 @@
 package com.elenaneacsu.healthmate.screens;
 
+import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,6 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.elenaneacsu.healthmate.R;
+import com.nightonke.boommenu.BoomButtons.BoomButton;
+import com.nightonke.boommenu.BoomButtons.BoomButtonBuilder;
+import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
+import com.nightonke.boommenu.BoomMenuButton;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -22,25 +28,52 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        BoomMenuButton boomMenuButton = findViewById(R.id.bmb);
+            TextInsideCircleButton.Builder breakfastBuilder = new TextInsideCircleButton.Builder()
+                    .normalImageRes(R.drawable.ic_breakfast)
+                    .imagePadding(new Rect(10, -10, 5, 20))
+                    .normalText("Breakfast");
+            boomMenuButton.addBuilder(breakfastBuilder);
+
+            TextInsideCircleButton.Builder lunchBuilder = new TextInsideCircleButton.Builder()
+                    .normalImageRes(R.drawable.ic_lunch)
+                    .normalText("Lunch");
+            boomMenuButton.addBuilder(lunchBuilder);
+
+        TextInsideCircleButton.Builder dinnerBuilder = new TextInsideCircleButton.Builder()
+                .normalImageRes(R.drawable.ic_dinner)
+                .imagePadding(new Rect(10, -10, 5, 20))
+                .normalText("Dinner");
+        boomMenuButton.addBuilder(dinnerBuilder);
+
+        TextInsideCircleButton.Builder snackBuilder = new TextInsideCircleButton.Builder()
+                .normalImageRes(R.drawable.ic_snack)
+                .imagePadding(new Rect(10, -10, 5, 20))
+                .normalText("Snack");
+        boomMenuButton.addBuilder(snackBuilder);
+
+        TextInsideCircleButton.Builder sleepBuilder = new TextInsideCircleButton.Builder()
+                .normalImageRes(R.drawable.ic_sleep)
+                .imagePadding(new Rect(10, -10, 5, 20))
+                .normalText("Sleep");
+        boomMenuButton.addBuilder(sleepBuilder);
+
+        TextInsideCircleButton.Builder waterBuilder = new TextInsideCircleButton.Builder()
+                .normalImageRes(R.drawable.ic_water)
+                .imagePadding(new Rect(10, -10, 5, 20))
+                .normalText("Water");
+        boomMenuButton.addBuilder(waterBuilder);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 

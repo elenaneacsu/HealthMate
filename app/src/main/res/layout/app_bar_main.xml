@@ -22,12 +22,15 @@
 
     <include layout="@layout/content_main" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+    <com.nightonke.boommenu.BoomMenuButton
+        android:id="@+id/bmb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:bmb_normalColor="@color/colorAccent"
+        app:bmb_buttonEnum="textInsideCircle"
+        app:bmb_piecePlaceEnum="piecePlace_dot_6_4"
+        app:bmb_buttonPlaceEnum="buttonPlace_sc_6_4"
+        app:bmb_boomEnum="boomHorizontalThrow_2"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -12,6 +12,18 @@
         android:background="@color/colorPrimary">
 
         <EditText
+            android:id="@+id/edittext_name"
+            style="@style/edittext"
+            android:drawableStart="@drawable/ic_edittext_person_drawable"
+            android:drawableLeft="@drawable/ic_edittext_person_drawable"
+            android:hint="@string/name"
+            android:ems="10"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
             android:id="@+id/edittext_email"
             style="@style/edittext"
             android:drawableStart="@drawable/ic_edittext_email_drawable"
@@ -21,7 +33,7 @@
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/edittext_name" />
 
         <EditText
             android:id="@+id/edittext_password"
@@ -42,6 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edittext_password" />
+
 
     </android.support.constraint.ConstraintLayout>
 

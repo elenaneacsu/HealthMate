@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import java.util.Date;
 
 public class User implements Parcelable {
+    private String name;
     private String email;
     private String password;
     private String goal;
@@ -15,6 +16,14 @@ public class User implements Parcelable {
     private float currentWeight;
     private float desiredWeight;
     private int height;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getGoal() {
         return goal;

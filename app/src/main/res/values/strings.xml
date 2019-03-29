@@ -53,4 +53,6 @@
     <string name="select_gender">Please select the gender you mostly identify with</string>
     <string name="pick_birthdate">Please select your birth date!</string>
     <string name="supply_values">Please supply values for all the fields!</string>
+    <string name="name">Name</string>
+    <string name="insert_name">Please insert your name</string>
 </resources>

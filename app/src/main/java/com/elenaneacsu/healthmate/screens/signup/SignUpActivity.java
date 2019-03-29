@@ -1,6 +1,5 @@
 package com.elenaneacsu.healthmate.screens.signup;
 
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -8,13 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.elenaneacsu.healthmate.R;
-import com.elenaneacsu.healthmate.screens.adapters.SignUpTabAdapter;
 import com.elenaneacsu.healthmate.screens.entities.User;
-import com.elenaneacsu.healthmate.screens.signup.fragments.AccountDetailsFragment;
-import com.elenaneacsu.healthmate.screens.signup.fragments.ActivityLevelFragment;
-import com.elenaneacsu.healthmate.screens.signup.fragments.GenderBirthFragment;
 import com.elenaneacsu.healthmate.screens.signup.fragments.GoalFragment;
-import com.elenaneacsu.healthmate.screens.signup.fragments.WeightHeightFragment;
 import com.elenaneacsu.healthmate.utils.Constants;
 
 public class SignUpActivity extends AppCompatActivity {
