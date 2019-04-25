@@ -29,8 +29,8 @@
         android:layout_gravity="bottom|end"
         app:bmb_normalColor="@color/colorAccent"
         app:bmb_buttonEnum="textInsideCircle"
-        app:bmb_piecePlaceEnum="piecePlace_dot_6_4"
-        app:bmb_buttonPlaceEnum="buttonPlace_sc_6_4"
+        app:bmb_piecePlaceEnum="piecePlace_dot_7_4"
+        app:bmb_buttonPlaceEnum="buttonPlace_sc_7_4"
         app:bmb_boomEnum="boomHorizontalThrow_2"/>
 
 </android.support.design.widget.CoordinatorLayout>

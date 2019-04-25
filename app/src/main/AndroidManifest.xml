@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.elenaneacsu.healthmate">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,9 +13,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".screens.login.LogInActivity"
-            android:theme="@style/AppTheme.Dark">
-        </activity>
-        <activity android:name=".screens.signup.SignUpActivity"></activity>
+            android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".screens.signup.SignUpActivity" />
         <activity
             android:name=".screens.MainActivity"
             android:label="@string/title_activity_main"
@@ -25,6 +25,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".screens.LogWaterActivity" />
+        <activity
+            android:name=".screens.WaterAnimationActivity"
+            android:label=""
+            android:theme="@style/Theme.Transparent" />
+        <activity android:name=".screens.LogHealthFactorActivity"></activity>
     </application>
 
 </manifest>

@@ -1,8 +1,12 @@
 package com.elenaneacsu.healthmate.screens;
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -18,6 +22,7 @@ import android.view.View;
 import com.elenaneacsu.healthmate.R;
 import com.nightonke.boommenu.BoomButtons.BoomButton;
 import com.nightonke.boommenu.BoomButtons.BoomButtonBuilder;
+import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 
@@ -58,7 +63,16 @@ public class MainActivity extends AppCompatActivity
         TextInsideCircleButton.Builder snackBuilder = new TextInsideCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_snack)
                 .imagePadding(new Rect(10, -10, 5, 20))
-                .normalText("Snack");
+                .normalText("Snack")
+                .listener(new OnBMClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public void onBoomButtonClick(int index) {
+                        Intent intent = new Intent(MainActivity.this, LogHealthFactorActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    }
+                });
         boomMenuButton.addBuilder(snackBuilder);
 
         TextInsideCircleButton.Builder sleepBuilder = new TextInsideCircleButton.Builder()
@@ -70,11 +84,34 @@ public class MainActivity extends AppCompatActivity
         TextInsideCircleButton.Builder waterBuilder = new TextInsideCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_water)
                 .imagePadding(new Rect(10, -10, 5, 20))
-                .normalText("Water");
+                .normalText("Water")
+                .listener(new OnBMClickListener() {
+                    @Override
+                    public void onBoomButtonClick(int index) {
+                        Intent intent = new Intent(MainActivity.this, LogWaterActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    }
+                });
         boomMenuButton.addBuilder(waterBuilder);
+
+        TextInsideCircleButton.Builder sportBuilder = new TextInsideCircleButton.Builder()
+                .normalImageRes(R.drawable.ic_sport)
+                .imagePadding(new Rect(10, -10, 5, 20))
+                .normalText("Sport")
+                .listener(new OnBMClickListener() {
+                    @Override
+                    public void onBoomButtonClick(int index) {
+                        Intent intent = new Intent(MainActivity.this, LogWaterActivity.class);
+                        startActivity(intent);
+                    }
+                });
+        boomMenuButton.addBuilder(sportBuilder);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     @Override
