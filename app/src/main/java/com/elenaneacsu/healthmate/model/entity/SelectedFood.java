@@ -1,4 +1,4 @@
-package com.elenaneacsu.healthmate.model;
+package com.elenaneacsu.healthmate.model.entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

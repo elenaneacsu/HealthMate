@@ -30,7 +30,7 @@
             android:name=".screens.WaterAnimationActivity"
             android:label=""
             android:theme="@style/Theme.Transparent" />
-        <activity android:name=".screens.LogHealthFactorActivity"></activity>
+        <activity android:name=".screens.loghealthfactor.LogHealthFactorActivity"></activity>
     </application>
 
 </manifest>

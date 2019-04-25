@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.elenaneacsu.healthmate.R;
-import com.elenaneacsu.healthmate.model.Food;
+import com.elenaneacsu.healthmate.model.entity.Food;
 
 import java.util.List;
 

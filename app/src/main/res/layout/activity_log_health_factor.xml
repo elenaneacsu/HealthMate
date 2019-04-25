@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.LogHealthFactorActivity">
+    tools:context=".screens.loghealthfactor.LogHealthFactorActivity">
 
 
     <android.support.v7.widget.RecyclerView

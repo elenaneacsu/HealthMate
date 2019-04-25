@@ -1,4 +1,4 @@
-package com.elenaneacsu.healthmate.network;
+package com.elenaneacsu.healthmate.api;
 
 import android.net.Uri;
 import android.util.Base64;
@@ -11,15 +11,15 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import static com.elenaneacsu.healthmate.utils.Constants.APP_KEY;
+import static com.elenaneacsu.healthmate.utils.Constants.API_KEY;
 import static com.elenaneacsu.healthmate.utils.Constants.APP_SECRET;
 import static com.elenaneacsu.healthmate.utils.Constants.HMAC_SHA1_ALGORITHM;
 
 public class ApiRequest {
 
-    public static String[] generateOauthParamsSearch(String searchFood, int i) {
+    public static String[] generateOauthParamsSearch(String searchFood, Long i) {
         return new String[]{
-                "oauth_consumer_key=" + APP_KEY,
+                "oauth_consumer_key=" + API_KEY,
                 "oauth_signature_method=HMAC-SHA1",
                 "oauth_timestamp=" +
                         Long.valueOf(System.currentTimeMillis() * 2).toString(),
@@ -27,14 +27,14 @@ public class ApiRequest {
                 "oauth_version=1.0",
                 "format=json",
                 "method=foods.search",
-                "search_expression="+searchFood,
+                "search_expression=" + searchFood,
                 "page_number=" + i,
                 "max_results=" + 30};
     }
 
     private static String[] generateOauthParamsGet() {
         return new String[]{
-                "oauth_consumer_key=" + APP_KEY,
+                "oauth_consumer_key=" + API_KEY,
                 "oauth_signature_method=HMAC-SHA1",
                 "oauth_timestamp=" +
                         Long.valueOf(System.currentTimeMillis() * 2).toString(),
@@ -45,10 +45,10 @@ public class ApiRequest {
 
     public static String sign(String method, String uri, String[] params) {
         String[] p = {method, Uri.encode(uri), Uri.encode(paramify(params))};
-        APP_SECRET+="&";
+        APP_SECRET += "&";
         String s = join(p, "&");
         SecretKey sk = new SecretKeySpec(APP_SECRET.getBytes(), HMAC_SHA1_ALGORITHM);
-        APP_SECRET = APP_SECRET.substring(0, APP_SECRET.length()-1);
+        APP_SECRET = APP_SECRET.substring(0, APP_SECRET.length() - 1);
         try {
             Mac m = Mac.getInstance(HMAC_SHA1_ALGORITHM);
             m.init(sk);
