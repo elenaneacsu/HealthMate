@@ -3,6 +3,9 @@
     package="com.elenaneacsu.healthmate">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -13,24 +16,26 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".screens.login.LogInActivity"
-            android:theme="@style/AppTheme.Dark" />
-        <activity android:name=".screens.signup.SignUpActivity" />
-        <activity
-            android:name=".screens.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".screens.signup.SignUpActivity" />
+        <activity
+            android:name=".screens.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".screens.LogWaterActivity" />
         <activity
             android:name=".screens.WaterAnimationActivity"
             android:label=""
             android:theme="@style/Theme.Transparent" />
-        <activity android:name=".screens.loghealthfactor.LogHealthFactorActivity"></activity>
+        <activity android:name=".screens.LogFoodActivity" />
+        <activity android:name=".screens.FoodDetailActivity" />
+        <activity android:name=".screens.profile.EditProfileActivity"></activity>
     </application>
 
 </manifest>

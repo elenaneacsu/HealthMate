@@ -6,24 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".screens.LogWaterActivity">
 
+    <com.scwang.wave.MultiWaveHeader
+        android:id="@+id/waveHeader"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        app:mwhVelocity="1"
+        app:mwhProgress="1"
+        app:mwhGradientAngle="45"
+        app:mwhStartColor="@color/colorPrimary"
+        app:mwhCloseColor="@color/light_green"/>
+
     <com.github.lzyzsd.circleprogress.CircleProgress
         android:id="@+id/circle_progress"
-        app:circle_progress="0"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        app:circle_progress="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:circle_unfinished_color="@color/light_green"/>
 
     <Button
         android:id="@+id/btn_inputwater"
-        style="@style/button_login"
-        android:textColor="@color/colorAccent"
+        style="@style/button_water"
         android:layout_marginTop="32dp"
         android:text="@string/input_water"
         app:layout_constraintEnd_toEndOf="parent"

@@ -140,11 +140,11 @@ public class ActivityLevelFragment extends Fragment {
     private void setButtonsDesign(Button buttonOne, Button buttonTwo, Button buttonThree, Button buttonFour) {
         buttonOne.setBackgroundResource(R.drawable.button_rounded_color_accent);
         buttonOne.setTextColor(Color.WHITE);
-        buttonTwo.setBackgroundResource(R.drawable.button_rounded);
+        buttonTwo.setBackgroundResource(R.drawable.button_rounded_corners);
         buttonTwo.setTextColor(getThemePrimaryColor(getContext()));
-        buttonThree.setBackgroundResource(R.drawable.button_rounded);
+        buttonThree.setBackgroundResource(R.drawable.button_rounded_corners);
         buttonThree.setTextColor(getThemePrimaryColor(getContext()));
-        buttonFour.setBackgroundResource(R.drawable.button_rounded);
+        buttonFour.setBackgroundResource(R.drawable.button_rounded_corners);
         buttonFour.setTextColor(getThemePrimaryColor(getContext()));
     }
 

@@ -59,7 +59,7 @@
         <item name="android:layout_marginLeft">32dp</item>
         <item name="android:layout_marginTop">24dp</item>
         <item name="android:layout_marginRight">32dp</item>
-        <item name="android:background">@drawable/button_rounded</item>
+        <item name="android:background">@drawable/button_rounded_corners</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
@@ -71,10 +71,22 @@
         <item name="android:layout_marginLeft">32dp</item>
         <item name="android:layout_marginTop">24dp</item>
         <item name="android:layout_marginRight">32dp</item>
-        <item name="android:background">@drawable/button_rounded</item>
+        <item name="android:background">@drawable/button_rounded_corners</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="button_water">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">32dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:layout_marginRight">32dp</item>
+        <item name="android:background">@drawable/button_rounded_color_primary</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="textview_login">
@@ -103,8 +115,20 @@
         <item name="android:layout_marginLeft">32dp</item>
         <item name="android:layout_marginTop">32dp</item>
         <item name="android:layout_marginRight">32dp</item>
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="textview_viewprofile">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">32dp</item>
+        <item name="android:layout_marginRight">32dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAlignment">gravity</item>
+        <item name="android:paddingLeft">24dp</item>
+        <item name="android:background">@drawable/textview_background_rounded_grey</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

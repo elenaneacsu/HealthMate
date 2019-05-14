@@ -166,7 +166,7 @@ public class GenderBirthFragment extends Fragment {
     private void setButtonsDesign(Button buttonOne, Button buttonTwo) {
         buttonOne.setBackgroundResource(R.drawable.button_rounded_color_accent);
         buttonOne.setTextColor(Color.WHITE);
-        buttonTwo.setBackgroundResource(R.drawable.button_rounded);
+        buttonTwo.setBackgroundResource(R.drawable.button_rounded_corners);
         buttonTwo.setTextColor(getThemePrimaryColor(getContext()));
     }
 

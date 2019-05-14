@@ -111,7 +111,6 @@ public class AccountDetailsFragment extends Fragment {
                                         user.setName(name);
                                         user.setEmail(email);
                                         user.setPassword(password);
-                                        initialiseUser();
                                         showToast(getContext(), getString(R.string.success_signup));
 
                                         FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
@@ -127,15 +126,12 @@ public class AccountDetailsFragment extends Fragment {
                                                     });
                                         }
                                         startActivity(new Intent(signUpActivity, LogInActivity.class));
+                                        mFirestore.collection("users").document(currentUser.getUid()).set(user);
                                     }
                                 }
                             });
                 }
             }
         });
-    }
-
-    private void initialiseUser() {
-        mFirestore.collection("users").add(user);
     }
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.elenaneacsu.healthmate.R;
 import com.github.lzyzsd.circleprogress.CircleProgress;
+import com.scwang.wave.MultiWaveHeader;
 
 import static com.elenaneacsu.healthmate.utils.Constants.MAX_WATER;
 
@@ -22,6 +23,8 @@ public class LogWaterActivity extends AppCompatActivity {
     private Button mBtnInputWater;
     private CircleProgress mCircleProgress;
     private TextView mTextViewTotal;
+    private MultiWaveHeader mWaveHeader;
+
     private static int userWater = 0;
 
     @Override
@@ -42,6 +45,8 @@ public class LogWaterActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mWaveHeader = findViewById(R.id.waveHeader);
+        mWaveHeader.isRunning();
         mBtnInputWater = findViewById(R.id.btn_inputwater);
         mCircleProgress = findViewById(R.id.circle_progress);
         mTextViewTotal = findViewById(R.id.textview_totalquantity);
@@ -64,6 +69,9 @@ public class LogWaterActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mCircleProgress.setProgress(percentage);
+                        if(userWater>MAX_WATER) {
+                            mCircleProgress.setProgress(100);
+                        }
                         mTextViewTotal.setText(getString(R.string.water_textview)+userWater+getString(R.string.ml));
                     }
                 }, 1000);

@@ -16,6 +16,15 @@ public class User implements Parcelable {
     private float currentWeight;
     private float desiredWeight;
     private int height;
+    private String photo;
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public String getName() {
         return name;
@@ -115,6 +124,7 @@ public class User implements Parcelable {
         currentWeight = in.readFloat();
         desiredWeight = in.readFloat();
         height = in.readInt();
+        photo = in.readString();
     }
 
     @Override
@@ -133,6 +143,7 @@ public class User implements Parcelable {
         dest.writeFloat(currentWeight);
         dest.writeFloat(desiredWeight);
         dest.writeInt(height);
+        dest.writeString(photo);
     }
 
     @SuppressWarnings("unused")
