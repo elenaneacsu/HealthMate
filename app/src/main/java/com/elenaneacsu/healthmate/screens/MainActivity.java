@@ -18,10 +18,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.elenaneacsu.healthmate.R;
+import com.elenaneacsu.healthmate.screens.main.MainFragment;
 import com.elenaneacsu.healthmate.screens.profile.ViewProfileFragment;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
+
+import static com.elenaneacsu.healthmate.utils.Constants.FRAGMENT;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,6 +41,16 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null) {
+            int fragment = bundle.getInt(FRAGMENT);
+            switch (fragment) {
+                case 0:
+                    initFragment(new ViewProfileFragment());
+                    break;
+            }
+        }
 
         BoomMenuButton boomMenuButton = findViewById(R.id.bmb);
             TextInsideCircleButton.Builder breakfastBuilder = new TextInsideCircleButton.Builder()
@@ -150,7 +163,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+            initFragment(new MainFragment());
         } else if (id == R.id.nav_profile) {
             initFragment(new ViewProfileFragment());
         } else if (id == R.id.nav_recipes) {

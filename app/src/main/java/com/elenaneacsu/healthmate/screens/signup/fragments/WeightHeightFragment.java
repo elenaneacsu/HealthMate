@@ -114,7 +114,7 @@ public class WeightHeightFragment extends Fragment {
         bundle.putParcelable(Constants.USER, user);
         FragmentManager fragmentManager = signUpActivity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.placeholder, GenderBirthFragment.newInstance(bundle));
+        fragmentTransaction.replace(R.id.placeholder, GenderAgeFragment.newInstance(bundle));
         fragmentTransaction.commit();
     }
 }

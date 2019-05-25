@@ -17,17 +17,12 @@
         <activity
             android:name=".screens.login.LogInActivity"
             android:theme="@style/AppTheme.Dark">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".screens.signup.SignUpActivity" />
         <activity
             android:name=".screens.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".screens.LogWaterActivity" />
         <activity
             android:name=".screens.WaterAnimationActivity"
@@ -35,7 +30,14 @@
             android:theme="@style/Theme.Transparent" />
         <activity android:name=".screens.LogFoodActivity" />
         <activity android:name=".screens.FoodDetailActivity" />
-        <activity android:name=".screens.profile.EditProfileActivity"></activity>
+        <activity android:name=".screens.profile.EditProfileActivity" />
+        <activity android:name=".screens.SleepActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

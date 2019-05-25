@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.signup.fragments.GenderBirthFragment">
+    tools:context=".screens.signup.fragments.GenderAgeFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -51,25 +51,22 @@
         <TextView
             android:id="@+id/textview_birth"
             style="@style/textview_signup"
-            android:text="@string/when_where_you_born"
+            android:text="@string/how_old_are_you"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_male" />
 
-        <Button
-            android:id="@+id/btn_birthdate"
-            style="@style/button_answer"
-            android:text="@string/pick_a_date"
+        <EditText
+            android:id="@+id/edittext_age"
+            style="@style/edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview_birth" />
 
-        <TextView
-            android:id="@+id/textview_birthdate"
-            style="@style/textview_signup"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_birthdate" />
 
         <ImageButton
             android:id="@+id/btn_next"

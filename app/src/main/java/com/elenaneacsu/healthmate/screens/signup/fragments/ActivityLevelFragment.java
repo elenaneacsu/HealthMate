@@ -1,7 +1,6 @@
 package com.elenaneacsu.healthmate.screens.signup.fragments;
 
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -153,7 +151,7 @@ public class ActivityLevelFragment extends Fragment {
         bundle.putParcelable(Constants.USER, user);
         FragmentManager fragmentManager = signUpActivity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.placeholder, GenderBirthFragment.newInstance(bundle));
+        fragmentTransaction.replace(R.id.placeholder, GenderAgeFragment.newInstance(bundle));
         fragmentTransaction.commit();
     }
 

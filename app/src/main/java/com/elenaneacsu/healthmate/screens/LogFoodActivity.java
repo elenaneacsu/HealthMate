@@ -92,7 +92,7 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
     }
 
     private void searchFood(final String item) {
-        RetrofitHelper.getResponse(item)
+        RetrofitHelper.getFoodResponse(item)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<FoodResponse>() {

@@ -67,7 +67,19 @@
     <string name="home">Home</string>
     <string name="edit">Edit</string>
     <string name="choose_photo_from">Choose photo from</string>
-    <string name="height">Height: </string>
-    <string name="current_weight">Current weight: </string>
-    <string name="goal_weight">Goal weight: </string>
+    <string name="height">Height \u0020</string>
+    <string name="current_weight">Current weight \u0020</string>
+    <string name="goal_weight">Goal weight \u0020</string>
+    <string name="goal">Goal</string>
+    <string name="activity_level">Activity level</string>
+    <string name="age">Age</string>
+    <string name="gender">Gender</string>
+    <string name="what_is_your_name">What is your name?</string>
+    <string name="how_old_are_you">How old are you?</string>
+    <string name="gender_you_identify_with">The gender you mostly identify with</string>
+    <string name="what_is_your_activity_level">What is your activity level?</string>
+    <string name="how_much_do_you_weigh_right_now">How much do you weigh right now?</string>
+    <string name="please_insert_age">Please insert your age!</string>
+    <string name="wake_up">Wake up \u0020</string>
+    <string name="bedtime">Bedtime</string>
 </resources>

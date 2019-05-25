@@ -87,7 +87,7 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseStorage = FirebaseStorage.getInstance();
 
-
+        getFromFirestore();
     }
 
     @Override
@@ -108,8 +108,6 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
         mTextViewHeight = view.findViewById(R.id.textview_height);
         mButtonEdit = view.findViewById(R.id.btn_edit);
 
-        getFromFirestore();
-
         mCircularImageView.setOnClickListener(this);
         mButtonEdit.setOnClickListener(this);
     }
@@ -118,7 +116,7 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.circularImageView:
-                choosePhotoDialog();
+                requestMultiplePermissions();
                 Log.d("tag", "onClick: clicked");
                 break;
             case R.id.btn_edit:
@@ -128,7 +126,6 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
     }
 
     public void choosePhotoDialog() {
-        requestMultiplePermissions();
         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
         dialog.setTitle(com.elenaneacsu.healthmate.R.string.choose_photo_from);
         String[] dialogItems = {
@@ -228,6 +225,7 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
+                            choosePhotoDialog();
                             showToast(getContext(), "All permissions are granted by user!");
                         }
                         if (report.isAnyPermissionPermanentlyDenied()) {
@@ -284,7 +282,7 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
     }
 
     private void setFields(User user) {
-        mTextViewInfo.setText(user.getBirthdate()+" y.o. "+user.getGender()+" | "+ user.getActivityLevel());
+        mTextViewInfo.setText(user.getName()+" | "+user.getAge() + " y.o. " + user.getGender() + " | " + user.getActivityLevel());
         mTextViewGoalWeight.setText(getString(com.elenaneacsu.healthmate.R.string.goal_weight)+user.getDesiredWeight()+" kg");
         mTextViewCurrentWeight.setText(getString(com.elenaneacsu.healthmate.R.string.current_weight)+user.getCurrentWeight()+" kg");
         mTextViewHeight.setText(getString(com.elenaneacsu.healthmate.R.string.height)+user.getHeight()+" cm");

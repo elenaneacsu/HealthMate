@@ -12,7 +12,7 @@ public class User implements Parcelable {
     private String goal;
     private String activityLevel;
     private String gender;
-    private Date birthdate;
+    private int age;
     private float currentWeight;
     private float desiredWeight;
     private int height;
@@ -46,8 +46,8 @@ public class User implements Parcelable {
         return gender;
     }
 
-    public Date getBirthdate() {
-        return birthdate;
+    public int getAge() {
+        return age;
     }
 
     public float getCurrentWeight() {
@@ -62,13 +62,13 @@ public class User implements Parcelable {
         return height;
     }
 
-    public User(String email, String password, String goal, String activityLevel, String gender, Date birthdate, float currentWeight, float desiredWeight, int height) {
+    public User(String email, String password, String goal, String activityLevel, String gender, int age, float currentWeight, float desiredWeight, int height) {
         this.email = email;
         this.password = password;
         this.goal = goal;
         this.activityLevel = activityLevel;
         this.gender = gender;
-        this.birthdate = birthdate;
+        this.age = age;
         this.currentWeight = currentWeight;
         this.desiredWeight = desiredWeight;
         this.height = height;
@@ -97,8 +97,8 @@ public class User implements Parcelable {
         this.gender = gender;
     }
 
-    public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public void setCurrentWeight(float currentWeight) {
@@ -119,8 +119,7 @@ public class User implements Parcelable {
         goal = in.readString();
         activityLevel = in.readString();
         gender = in.readString();
-        long tmpBirthdate = in.readLong();
-        birthdate = tmpBirthdate != -1 ? new Date(tmpBirthdate) : null;
+        age = in.readInt();
         currentWeight = in.readFloat();
         desiredWeight = in.readFloat();
         height = in.readInt();
@@ -139,7 +138,7 @@ public class User implements Parcelable {
         dest.writeString(goal);
         dest.writeString(activityLevel);
         dest.writeString(gender);
-        dest.writeLong(birthdate != null ? birthdate.getTime() : -1L);
+        dest.writeLong(age);
         dest.writeFloat(currentWeight);
         dest.writeFloat(desiredWeight);
         dest.writeInt(height);
@@ -167,7 +166,7 @@ public class User implements Parcelable {
                 ", goal='" + goal + '\'' +
                 ", activityLevel='" + activityLevel + '\'' +
                 ", gender='" + gender + '\'' +
-                ", birthdate=" + birthdate +
+                ", age=" + age +
                 ", currentWeight=" + currentWeight +
                 ", desiredWeight=" + desiredWeight +
                 ", height=" + height +

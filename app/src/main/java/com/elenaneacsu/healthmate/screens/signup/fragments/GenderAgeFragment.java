@@ -1,38 +1,25 @@
 package com.elenaneacsu.healthmate.screens.signup.fragments;
 
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.elenaneacsu.healthmate.R;
 import com.elenaneacsu.healthmate.screens.entities.User;
 import com.elenaneacsu.healthmate.screens.signup.SignUpActivity;
 import com.elenaneacsu.healthmate.utils.Constants;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-import static com.elenaneacsu.healthmate.utils.Constants.SELECTED_DATE;
 import static com.elenaneacsu.healthmate.utils.Constants.USER;
 import static com.elenaneacsu.healthmate.utils.GetThemeColors.getThemeAccentColor;
 import static com.elenaneacsu.healthmate.utils.GetThemeColors.getThemePrimaryColor;
@@ -41,24 +28,20 @@ import static com.elenaneacsu.healthmate.utils.ToastUtil.showToast;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GenderBirthFragment extends Fragment {
+public class GenderAgeFragment extends Fragment {
 
-    private static final String TAG = "mytest";
     private Button mBtnMale;
     private Button mBtnFemale;
-    private Button mBtnBirthdate;
     private ImageButton mBtnNext;
     private ImageButton mBtnBack;
-    private TextView mTextViewBirthdate;
+    private EditText mEditTextAge;
     private User user;
     public SignUpActivity signUpActivity;
 
     private boolean enableNextGender = false;
-    private boolean enableNextBirthdate = false;
+    private boolean enableNextAge = false;
 
-    public static final int REQUEST_CODE = 1;
-
-    public GenderBirthFragment() {
+    public GenderAgeFragment() {
         // Required empty public constructor
     }
 
@@ -67,14 +50,13 @@ public class GenderBirthFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_gender_birth, container, false);
+        View view = inflater.inflate(R.layout.fragment_gender_age, container, false);
 
         mBtnMale = view.findViewById(R.id.btn_male);
         mBtnFemale = view.findViewById(R.id.btn_female);
-        mBtnBirthdate = view.findViewById(R.id.btn_birthdate);
+        mEditTextAge = view.findViewById(R.id.edittext_age);
         mBtnNext = view.findViewById(R.id.btn_next);
         mBtnBack = view.findViewById(R.id.btn_back);
-        mTextViewBirthdate = view.findViewById(R.id.textview_birthdate);
         signUpActivity = (SignUpActivity) getActivity();
 
         Bundle bundle = getArguments();
@@ -85,12 +67,12 @@ public class GenderBirthFragment extends Fragment {
         return view;
     }
 
-    public static GenderBirthFragment newInstance(Bundle arguments) {
-        GenderBirthFragment genderBirthFragment = new GenderBirthFragment();
+    public static GenderAgeFragment newInstance(Bundle arguments) {
+        GenderAgeFragment genderAgeFragment = new GenderAgeFragment();
         if (arguments != null) {
-            genderBirthFragment.setArguments(arguments);
+            genderAgeFragment.setArguments(arguments);
         }
-        return genderBirthFragment;
+        return genderAgeFragment;
     }
 
     @Override
@@ -115,23 +97,18 @@ public class GenderBirthFragment extends Fragment {
             }
         });
 
-        mBtnBirthdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment newFragment = new DatePickerFragment();
-                newFragment.setTargetFragment(GenderBirthFragment.this, REQUEST_CODE);
-                newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.select_birthdate));
-                enableNextBirthdate = true;
-            }
-        });
-
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!enableNextGender) {
+                if (!mEditTextAge.getText().toString().isEmpty() && mEditTextAge != null) {
+                    int age = Integer.parseInt(mEditTextAge.getText().toString());
+                    user.setAge(age);
+                    enableNextAge = true;
+                }
+                if (!enableNextGender) {
                     showToast(getContext(), getString(R.string.select_gender));
-                } else if(!enableNextBirthdate) {
-                    showToast(getContext(), getString(R.string.pick_birthdate));
+                } else if (!enableNextAge) {
+                    showToast(getContext(), getString(com.elenaneacsu.healthmate.R.string.please_insert_age));
                 } else {
                     signUpActivity.mView3.setBackgroundColor(getThemeAccentColor(getContext()));
                     initNextFragment();
@@ -146,21 +123,6 @@ public class GenderBirthFragment extends Fragment {
                 signUpActivity.mView3.setBackgroundColor(Color.WHITE);
             }
         });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            String selectedDate = data.getStringExtra(SELECTED_DATE);
-            DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy", Locale.ENGLISH);
-            try {
-                Date birthdate = dateFormat.parse(selectedDate);
-                user.setBirthdate(birthdate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            mTextViewBirthdate.setText("Selected date: " + selectedDate);
-        }
     }
 
     private void setButtonsDesign(Button buttonOne, Button buttonTwo) {

@@ -28,18 +28,21 @@ public class RetrofitHelper {
         return mRetrofit;
     }
 
-    public static Observable<FoodResponse> getResponse(String query) {
+    public static Observable<FoodResponse> getFoodResponse(String query) {
         Retrofit retrofit = getRetrofitInstance();
-        RequestService requestService = retrofit.create(RequestService.class);
+        FoodRequestService requestService = retrofit.create(FoodRequestService.class);
         return requestService.responseService(query);
     }
 
-    public interface RequestService {
-        @GET(BASE_URL+"food-database/parser?app_id="+APP_ID+"&app_key="
+    public interface FoodRequestService {
+        @GET(BASE_URL+"api/food-database/parser?app_id="+APP_ID+"&app_key="
                 +APP_KEY)
         Observable<FoodResponse> responseService(
                 @Query("ingr") String query
         );
+    }
 
+    public interface RecipeRequestService {
+        //@GET(BASE_URL+"search/")
     }
 }
