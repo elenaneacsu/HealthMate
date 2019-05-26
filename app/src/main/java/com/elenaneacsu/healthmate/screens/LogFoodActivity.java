@@ -1,6 +1,7 @@
 package com.elenaneacsu.healthmate.screens;
 
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
@@ -27,12 +28,15 @@ import java.util.List;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.elenaneacsu.healthmate.utils.Constants.FOOD_CLICKED;
 import static com.elenaneacsu.healthmate.utils.ToastUtil.showToast;
 
 public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.ItemClickListener {
+    private ProgressDialog mProgressDialog;
     private FoodAdapter mFoodAdapter;
     private List<Hint> mHintList = new ArrayList<>();
 
@@ -42,6 +46,7 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
         setContentView(R.layout.activity_log_health_factor);
 
         setUpRecyclerView();
+        createProgressDialog();
     }
 
     @Override
@@ -59,6 +64,7 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                query.replaceAll(" ", "%20");
                 searchFood(query);
                 searchView.clearFocus();
                 return true;
@@ -95,6 +101,18 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
         RetrofitHelper.getFoodResponse(item)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mProgressDialog.show();
+                    }
+                })
+                .doFinally(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mProgressDialog.dismiss();
+                    }
+                })
                 .subscribe(new Observer<FoodResponse>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -105,7 +123,6 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
                     public void onNext(FoodResponse foodResponse) {
                         mHintList.clear();
                         mHintList.addAll(foodResponse.getHints());
-                        Log.d("tag", "onNext: " + mHintList.size());
                     }
 
                     @Override
@@ -125,7 +142,12 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
     public void onItemClick(View view, Hint hint) {
         Intent intent = new Intent(getApplicationContext(), FoodDetailActivity.class);
         intent.putExtra(FOOD_CLICKED, hint);
-        Log.d("tag", "onItemClick: "+hint.getFood().getFoodId());
         startActivity(intent);
+    }
+
+    private void createProgressDialog() {
+        mProgressDialog = new ProgressDialog(LogFoodActivity.this, R.style.AlertDialogStyle);
+        mProgressDialog.setTitle("Searching...");
+        mProgressDialog.setCancelable(false);
     }
 }

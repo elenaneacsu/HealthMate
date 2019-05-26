@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import com.elenaneacsu.healthmate.R;
 import com.elenaneacsu.healthmate.screens.main.MainFragment;
 import com.elenaneacsu.healthmate.screens.profile.ViewProfileFragment;
+import com.elenaneacsu.healthmate.screens.recipe.SearchRecipeFragment;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
@@ -88,7 +89,15 @@ public class MainActivity extends AppCompatActivity
         TextInsideCircleButton.Builder sleepBuilder = new TextInsideCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_sleep)
                 .imagePadding(new Rect(10, -10, 5, 20))
-                .normalText("Sleep");
+                .normalText("Sleep")
+                .listener(new OnBMClickListener() {
+                    @Override
+                    public void onBoomButtonClick(int index) {
+                        Intent intent = new Intent(MainActivity.this, SleepActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    }
+                });
         boomMenuButton.addBuilder(sleepBuilder);
 
         TextInsideCircleButton.Builder waterBuilder = new TextInsideCircleButton.Builder()
@@ -167,7 +176,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_profile) {
             initFragment(new ViewProfileFragment());
         } else if (id == R.id.nav_recipes) {
-
+            initFragment(new SearchRecipeFragment());
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

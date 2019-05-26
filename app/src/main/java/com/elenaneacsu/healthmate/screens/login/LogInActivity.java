@@ -1,5 +1,6 @@
 package com.elenaneacsu.healthmate.screens.login;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private EditText mEditTextEmail;
     private EditText mEditTextPassword;
+    private ProgressDialog mAuthProgressDialog;
     private FirebaseAuth mFirebaseAuth;
     public SharedPreferences mSharedPreferences;
 
@@ -36,6 +38,7 @@ public class LogInActivity extends AppCompatActivity {
 
         initView();
 
+        createAuthProgressDialog();
 //        mSharedPreferences = getSharedPreferences("LOGIN", MODE_PRIVATE);
 //        if(mSharedPreferences.getBoolean("logged", false)) {
 //            startActivity(new Intent(LogInActivity.this, MainActivity.class));
@@ -68,10 +71,13 @@ public class LogInActivity extends AppCompatActivity {
             showToast(getApplicationContext(), getString(R.string.wrong_credentials));
         }
 
+        mAuthProgressDialog.show();
+
         mFirebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        mAuthProgressDialog.dismiss();
                         if (!task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), getString(R.string.wrong_credentials), Toast.LENGTH_LONG).show();
                         } else {
@@ -85,5 +91,12 @@ public class LogInActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void createAuthProgressDialog() {
+        mAuthProgressDialog = new ProgressDialog(this, R.style.AlertDialogStyle);
+        mAuthProgressDialog.setTitle("Loading...");
+        mAuthProgressDialog.setMessage("Authenticating with Firebase...");
+        mAuthProgressDialog.setCancelable(false);
     }
 }

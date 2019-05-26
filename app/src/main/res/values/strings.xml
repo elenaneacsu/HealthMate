@@ -82,4 +82,6 @@
     <string name="please_insert_age">Please insert your age!</string>
     <string name="wake_up">Wake up \u0020</string>
     <string name="bedtime">Bedtime</string>
+    <string name="filter">Filter</string>
+    <string name="no_results_found">No results found!</string>
 </resources>

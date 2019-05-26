@@ -1,6 +1,7 @@
 package com.elenaneacsu.healthmate.api;
 
 import com.elenaneacsu.healthmate.model.FoodResponse;
+import com.elenaneacsu.healthmate.model.RecipeResponse;
 
 import io.reactivex.Observable;
 
@@ -10,8 +11,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-import static com.elenaneacsu.healthmate.utils.Constants.APP_ID;
-import static com.elenaneacsu.healthmate.utils.Constants.APP_KEY;
+import static com.elenaneacsu.healthmate.utils.Constants.APP_ID_FOOD;
+import static com.elenaneacsu.healthmate.utils.Constants.APP_ID_RECIPE;
+import static com.elenaneacsu.healthmate.utils.Constants.APP_KEY_FOOD;
+import static com.elenaneacsu.healthmate.utils.Constants.APP_KEY_RECIPE;
 import static com.elenaneacsu.healthmate.utils.Constants.BASE_URL;
 
 public class RetrofitHelper {
@@ -34,15 +37,27 @@ public class RetrofitHelper {
         return requestService.responseService(query);
     }
 
+    public static Observable<RecipeResponse> getRecipeResponse(String query, int from, int to) {
+        Retrofit retrofit = getRetrofitInstance();
+        RecipeRequestService requestService = retrofit.create(RecipeRequestService.class);
+        return requestService.responseService(query, from, to);
+    }
+
     public interface FoodRequestService {
-        @GET(BASE_URL+"api/food-database/parser?app_id="+APP_ID+"&app_key="
-                +APP_KEY)
+        @GET(BASE_URL+"api/food-database/parser?app_id="+ APP_ID_FOOD +"&app_key="
+                + APP_KEY_FOOD)
         Observable<FoodResponse> responseService(
                 @Query("ingr") String query
         );
     }
 
     public interface RecipeRequestService {
-        //@GET(BASE_URL+"search/")
+        @GET(BASE_URL+"search?app_id="+APP_ID_RECIPE+"&app_key="
+                +APP_KEY_RECIPE)
+        Observable<RecipeResponse> responseService(
+                @Query("q") String query,
+                @Query("from") int from,
+                @Query("to") int to
+        );
     }
 }
