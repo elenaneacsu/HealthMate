@@ -43,7 +43,7 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_log_health_factor);
+        setContentView(R.layout.activity_log_food);
 
         setUpRecyclerView();
         createProgressDialog();

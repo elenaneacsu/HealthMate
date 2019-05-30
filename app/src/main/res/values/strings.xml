@@ -84,4 +84,6 @@
     <string name="bedtime">Bedtime</string>
     <string name="filter">Filter</string>
     <string name="no_results_found">No results found!</string>
+    <string name="burned">BURNED</string>
+    <string name="eaten">EATEN</string>
 </resources>

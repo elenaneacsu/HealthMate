@@ -14,6 +14,7 @@ import com.elenaneacsu.healthmate.adapter.ListAdapter;
 import com.elenaneacsu.healthmate.model.Recipe;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,8 +57,9 @@ public class RecipeActivity extends AppCompatActivity {
             mLabels.addAll(mRecipe.getDietLabels());
             mLabels.addAll(mRecipe.getHealthLabels());
             mTextViewUrl.setText(mRecipe.getUrl());
-            mTextViewWeight.setText(mRecipe.getTotalWeight()+" g");
-            mTextViewCalories.setText(mRecipe.getCalories()+" kcal");
+            DecimalFormat df = new DecimalFormat("#.##");
+            mTextViewWeight.setText(df.format(mRecipe.getTotalWeight())+" g");
+            mTextViewCalories.setText(df.format(mRecipe.getCalories())+" kcal");
             Picasso.get().load(mRecipe.getImage()).into(mImageView);
         }
 

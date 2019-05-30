@@ -37,7 +37,8 @@
         <activity android:name=".screens.FoodDetailActivity" />
         <activity android:name=".screens.profile.EditProfileActivity" />
         <activity android:name=".screens.SleepActivity"></activity>
-        <activity android:name=".screens.recipe.RecipeActivity"></activity>
+        <activity android:name=".screens.recipe.RecipeActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
