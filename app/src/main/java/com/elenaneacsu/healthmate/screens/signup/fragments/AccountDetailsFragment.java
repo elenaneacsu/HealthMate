@@ -1,6 +1,7 @@
 package com.elenaneacsu.healthmate.screens.signup.fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.elenaneacsu.healthmate.R;
-import com.elenaneacsu.healthmate.screens.entities.User;
+import com.elenaneacsu.healthmate.model.User;
 import com.elenaneacsu.healthmate.screens.login.LogInActivity;
 import com.elenaneacsu.healthmate.screens.signup.SignUpActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,6 +35,7 @@ public class AccountDetailsFragment extends Fragment {
     private EditText mEditTextName;
     private EditText mEditTextEmail;
     private EditText mEditTextPassword;
+    private EditText mEditTextConfirmPassword;
     private Button mButtonSignup;
     private User user;
     private FirebaseFirestore mFirestore;
@@ -53,6 +55,7 @@ public class AccountDetailsFragment extends Fragment {
         mEditTextName = view.findViewById(R.id.edittext_name);
         mEditTextEmail = view.findViewById(R.id.edittext_email);
         mEditTextPassword = view.findViewById(R.id.edittext_password);
+        mEditTextConfirmPassword = view.findViewById(R.id.edittext_confirmpassword);
         mButtonSignup = view.findViewById(R.id.btn_signup);
         signUpActivity = (SignUpActivity) getActivity();
 
@@ -82,20 +85,14 @@ public class AccountDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mEditTextName.getText().toString().isEmpty() || mEditTextEmail.getText().toString().isEmpty()
-                        || mEditTextPassword.getText().toString().isEmpty()) {
+                        || mEditTextPassword.getText().toString().isEmpty() || mEditTextConfirmPassword.getText().toString().isEmpty()) {
                     showToast(getContext(), getString(R.string.supply_values));
+                } else if (!mEditTextPassword.getText().toString().equals(mEditTextConfirmPassword.getText().toString())) {
+                    showToast(getContext(), getString(R.string.passwords_dont_match));
                 } else {
                     final String name = mEditTextName.getText().toString();
                     final String email = mEditTextEmail.getText().toString();
                     final String password = mEditTextPassword.getText().toString();
-                    if (email.isEmpty() || email == null) {
-                        showToast(getContext(), getString(R.string.enter_email));
-                    }
-
-                    if (password.isEmpty() || password == null) {
-                        showToast(getContext(), getString(R.string.enter_password));
-                    }
-
 
                     mFirebaseAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(signUpActivity, new OnCompleteListener<AuthResult>() {
@@ -111,7 +108,6 @@ public class AccountDetailsFragment extends Fragment {
                                         user.setName(name);
                                         user.setEmail(email);
                                         user.setPassword(password);
-                                        showToast(getContext(), getString(R.string.success_signup));
 
                                         FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
                                         if (currentUser != null) {
@@ -127,6 +123,7 @@ public class AccountDetailsFragment extends Fragment {
                                         }
                                         startActivity(new Intent(signUpActivity, LogInActivity.class));
                                         mFirestore.collection("users").document(currentUser.getUid()).set(user);
+                                        getActivity().finish();
                                     }
                                 }
                             });

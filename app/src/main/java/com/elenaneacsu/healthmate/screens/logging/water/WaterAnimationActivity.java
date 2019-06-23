@@ -1,4 +1,4 @@
-package com.elenaneacsu.healthmate.screens;
+package com.elenaneacsu.healthmate.screens.logging.water;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;

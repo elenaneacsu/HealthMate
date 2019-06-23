@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.elenaneacsu.healthmate.R;
-import com.elenaneacsu.healthmate.screens.entities.User;
+import com.elenaneacsu.healthmate.model.User;
 import com.elenaneacsu.healthmate.screens.signup.fragments.GoalFragment;
 import com.elenaneacsu.healthmate.utils.Constants;
 

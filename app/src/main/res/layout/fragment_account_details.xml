@@ -47,13 +47,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edittext_email" />
 
-        <Button
-            android:id="@+id/btn_signup"
-            style="@style/button_login"
-            android:text="@string/sign_up"
+        <EditText
+            android:id="@+id/edittext_confirmpassword"
+            style="@style/edittext"
+            android:drawableStart="@drawable/ic_edittext_password_drawable"
+            android:drawableLeft="@drawable/ic_edittext_password_drawable"
+            android:ems="10"
+            android:hint="@string/confirm_password"
+            android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edittext_password" />
+
+
+        <Button
+            android:id="@+id/btn_signup"
+            style="@style/button_login"
+            android:layout_marginTop="8dp"
+            android:text="@string/sign_up"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edittext_confirmpassword" />
 
 
     </android.support.constraint.ConstraintLayout>

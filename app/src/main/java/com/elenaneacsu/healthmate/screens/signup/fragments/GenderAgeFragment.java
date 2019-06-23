@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.elenaneacsu.healthmate.R;
-import com.elenaneacsu.healthmate.screens.entities.User;
+import com.elenaneacsu.healthmate.model.User;
 import com.elenaneacsu.healthmate.screens.signup.SignUpActivity;
 import com.elenaneacsu.healthmate.utils.Constants;
 

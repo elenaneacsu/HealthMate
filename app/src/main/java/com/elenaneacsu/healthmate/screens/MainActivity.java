@@ -1,6 +1,8 @@
 package com.elenaneacsu.healthmate.screens;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,12 +14,17 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.elenaneacsu.healthmate.R;
+import com.elenaneacsu.healthmate.screens.logging.food.LogFoodActivity;
+import com.elenaneacsu.healthmate.screens.logging.sleep.LogSleepActivity;
+import com.elenaneacsu.healthmate.screens.logging.water.LogWaterActivity;
+import com.elenaneacsu.healthmate.screens.login.LogInActivity;
 import com.elenaneacsu.healthmate.screens.main.MainFragment;
 import com.elenaneacsu.healthmate.screens.profile.ViewProfileFragment;
 import com.elenaneacsu.healthmate.screens.recipe.SearchRecipeFragment;
@@ -44,7 +51,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         Bundle bundle = getIntent().getExtras();
-        if(bundle!=null) {
+        if (bundle != null) {
             int fragment = bundle.getInt(FRAGMENT);
             switch (fragment) {
                 case 0:
@@ -53,17 +60,19 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        BoomMenuButton boomMenuButton = findViewById(R.id.bmb);
-            TextInsideCircleButton.Builder breakfastBuilder = new TextInsideCircleButton.Builder()
-                    .normalImageRes(R.drawable.ic_breakfast)
-                    .imagePadding(new Rect(10, -10, 5, 20))
-                    .normalText("Breakfast");
-            boomMenuButton.addBuilder(breakfastBuilder);
+        initFragment(new MainFragment());
 
-            TextInsideCircleButton.Builder lunchBuilder = new TextInsideCircleButton.Builder()
-                    .normalImageRes(R.drawable.ic_lunch)
-                    .normalText("Lunch");
-            boomMenuButton.addBuilder(lunchBuilder);
+        BoomMenuButton boomMenuButton = findViewById(R.id.bmb);
+        TextInsideCircleButton.Builder breakfastBuilder = new TextInsideCircleButton.Builder()
+                .normalImageRes(R.drawable.ic_breakfast)
+                .imagePadding(new Rect(10, -10, 5, 20))
+                .normalText("Breakfast");
+        boomMenuButton.addBuilder(breakfastBuilder);
+
+        TextInsideCircleButton.Builder lunchBuilder = new TextInsideCircleButton.Builder()
+                .normalImageRes(R.drawable.ic_lunch)
+                .normalText("Lunch");
+        boomMenuButton.addBuilder(lunchBuilder);
 
         TextInsideCircleButton.Builder dinnerBuilder = new TextInsideCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_dinner)
@@ -93,7 +102,7 @@ public class MainActivity extends AppCompatActivity
                 .listener(new OnBMClickListener() {
                     @Override
                     public void onBoomButtonClick(int index) {
-                        Intent intent = new Intent(MainActivity.this, SleepActivity.class);
+                        Intent intent = new Intent(MainActivity.this, LogSleepActivity.class);
                         startActivity(intent);
                         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                     }
@@ -177,8 +186,12 @@ public class MainActivity extends AppCompatActivity
             initFragment(new ViewProfileFragment());
         } else if (id == R.id.nav_recipes) {
             initFragment(new SearchRecipeFragment());
-        } else if (id == R.id.nav_manage) {
-
+        } else if (id == R.id.nav_water) {
+            startActivity(new Intent(MainActivity.this, LogWaterActivity.class));
+        } else if (id == R.id.nav_sleep) {
+            startActivity(new Intent(MainActivity.this, LogSleepActivity.class));
+        } else if(id == R.id.nav_logout) {
+            logout();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -195,5 +208,26 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
+    }
+
+    private void logout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.logout));
+        builder.setMessage(R.string.logout_message);
+        builder.setPositiveButton(getString(R.string.logout_confirm), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences sp = getSharedPreferences("LOGIN", MODE_PRIVATE);
+                sp.edit().putBoolean("logged", false).apply();
+                startActivity(new Intent(MainActivity.this, LogInActivity.class));
+            }
+        });
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
     }
 }

@@ -3,6 +3,7 @@ package com.elenaneacsu.healthmate.screens.profile;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,10 +21,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.elenaneacsu.healthmate.R;
-import com.elenaneacsu.healthmate.screens.entities.User;
+import com.elenaneacsu.healthmate.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -86,8 +86,6 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
         mFirestore = FirebaseFirestore.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseStorage = FirebaseStorage.getInstance();
-
-        getFromFirestore();
     }
 
     @Override
@@ -107,6 +105,8 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
         mTextViewGoalWeight = view.findViewById(R.id.textview_goalweight);
         mTextViewHeight = view.findViewById(R.id.textview_height);
         mButtonEdit = view.findViewById(R.id.btn_edit);
+
+        getFromFirestore();
 
         mCircularImageView.setOnClickListener(this);
         mButtonEdit.setOnClickListener(this);
@@ -288,4 +288,5 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
         mTextViewHeight.setText(getString(com.elenaneacsu.healthmate.R.string.height)+user.getHeight()+" cm");
         Picasso.get().load(user.getPhoto()).into(mCircularImageView);
     }
+
 }

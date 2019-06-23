@@ -1,14 +1,19 @@
 package com.elenaneacsu.healthmate.api;
 
+import com.elenaneacsu.healthmate.model.FoodDetailResponse;
+import com.elenaneacsu.healthmate.model.FoodRequest;
 import com.elenaneacsu.healthmate.model.FoodResponse;
+import com.elenaneacsu.healthmate.model.Ingredient;
 import com.elenaneacsu.healthmate.model.RecipeResponse;
 
 import io.reactivex.Observable;
-
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 import static com.elenaneacsu.healthmate.utils.Constants.APP_ID_FOOD;
@@ -37,6 +42,12 @@ public class RetrofitHelper {
         return requestService.responseService(query);
     }
 
+    public static Observable<FoodDetailResponse> getFoodDetailResponse(FoodRequest foodRequest) {
+        Retrofit retrofit = getRetrofitInstance();
+        FoodDetailRequestService requestService = retrofit.create(FoodDetailRequestService.class);
+        return requestService.responseService(foodRequest);
+    }
+
     public static Observable<RecipeResponse> getRecipeResponse(String query, int from, int to) {
         Retrofit retrofit = getRetrofitInstance();
         RecipeRequestService requestService = retrofit.create(RecipeRequestService.class);
@@ -44,16 +55,25 @@ public class RetrofitHelper {
     }
 
     public interface FoodRequestService {
-        @GET(BASE_URL+"api/food-database/parser?app_id="+ APP_ID_FOOD +"&app_key="
+        @GET(BASE_URL + "api/food-database/parser?app_id=" + APP_ID_FOOD + "&app_key="
                 + APP_KEY_FOOD)
         Observable<FoodResponse> responseService(
                 @Query("ingr") String query
         );
     }
 
+    public interface FoodDetailRequestService {
+        @Headers({
+                "Content-Type:application/json"})
+        @POST(BASE_URL + "api/food-database/nutrients?app_id=" + APP_ID_FOOD + "&app_key="
+                + APP_KEY_FOOD)
+        Observable<FoodDetailResponse> responseService(
+                @Body FoodRequest foodRequest);
+    }
+
     public interface RecipeRequestService {
-        @GET(BASE_URL+"search?app_id="+APP_ID_RECIPE+"&app_key="
-                +APP_KEY_RECIPE)
+        @GET(BASE_URL + "search?app_id=" + APP_ID_RECIPE + "&app_key="
+                + APP_KEY_RECIPE)
         Observable<RecipeResponse> responseService(
                 @Query("q") String query,
                 @Query("from") int from,

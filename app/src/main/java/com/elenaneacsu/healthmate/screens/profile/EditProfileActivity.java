@@ -7,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +14,7 @@ import android.widget.TextView;
 
 import com.elenaneacsu.healthmate.R;
 import com.elenaneacsu.healthmate.screens.MainActivity;
-import com.elenaneacsu.healthmate.screens.entities.User;
+import com.elenaneacsu.healthmate.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

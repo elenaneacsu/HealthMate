@@ -37,10 +37,10 @@
     <string name="select_birthdate">Select birthdate</string>
     <string name="enter_password">Please enter a password</string>
     <string name="enter_email">Please add a valid email</string>
+    <string name="passwords_dont_match">The two passwords do not match!</string>
     <string name="password_too_short">Password must have at least 6 characters!</string>
     <string name="signup_error">Error while trying to sign up</string>
-    <string name="success_signup">Signed up successfully!</string>
-    <string name="verify_email">Verify your email!</string>
+    <string name="verify_email">Signed up successfully! Verify your email</string>
     <string name="wrong_credentials">Wrong credentials</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -86,4 +86,18 @@
     <string name="no_results_found">No results found!</string>
     <string name="burned">BURNED</string>
     <string name="eaten">EATEN</string>
+    <string name="calories_main">CALORIES</string>
+    <string name="water">Water</string>
+    <string name="sleep">Sleep</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="logout">Logout</string>
+    <string name="logout_message">Are you sure you want to logout?</string>
+    <string name="logout_confirm">Yes, log me out</string>
+    <string name="enter_amount">Enter amount</string>
+    <string name="calories">calories</string>
+    <string name="type_in_the_amount">type in the amount</string>
+    <string name="determine_total_calories">Determine total calories</string>
+    <string name="i_want_to_wake_up_at">I want to wake up at...</string>
+    <string name="select_time">Select time</string>
+    <string name="i_want_to_go_to_sleep_at">I want to go to sleep at...</string>
 </resources>

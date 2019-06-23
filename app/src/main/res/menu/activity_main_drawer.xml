@@ -17,9 +17,19 @@
             android:icon="@drawable/ic_recipes"
             android:title="@string/recipes" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_water"
+            android:icon="@drawable/ic_water_black"
+            android:title="@string/water" />
+
+        <item
+            android:id="@+id/nav_sleep"
+            android:icon="@drawable/ic_sleep_black"
+            android:title="@string/sleep" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_exit"
+            android:title="@string/logout" />
     </group>
 
     <item android:title="Communicate">

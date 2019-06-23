@@ -1,9 +1,7 @@
-package com.elenaneacsu.healthmate.screens.entities;
+package com.elenaneacsu.healthmate.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.Date;
 
 public class User implements Parcelable {
     private String name;
@@ -60,18 +58,6 @@ public class User implements Parcelable {
 
     public int getHeight() {
         return height;
-    }
-
-    public User(String email, String password, String goal, String activityLevel, String gender, int age, float currentWeight, float desiredWeight, int height) {
-        this.email = email;
-        this.password = password;
-        this.goal = goal;
-        this.activityLevel = activityLevel;
-        this.gender = gender;
-        this.age = age;
-        this.currentWeight = currentWeight;
-        this.desiredWeight = desiredWeight;
-        this.height = height;
     }
 
     public User() {

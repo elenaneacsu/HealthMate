@@ -1,4 +1,4 @@
-package com.elenaneacsu.healthmate.screens;
+package com.elenaneacsu.healthmate.screens.logging.food;
 
 
 import android.app.ProgressDialog;
@@ -7,11 +7,11 @@ import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +44,11 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_food);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         setUpRecyclerView();
         createProgressDialog();
@@ -143,6 +148,15 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
         Intent intent = new Intent(getApplicationContext(), FoodDetailActivity.class);
         intent.putExtra(FOOD_CLICKED, hint);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id==android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void createProgressDialog() {

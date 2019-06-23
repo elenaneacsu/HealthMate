@@ -1,12 +1,14 @@
-package com.elenaneacsu.healthmate.screens;
+package com.elenaneacsu.healthmate.screens.logging.water;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,9 +34,14 @@ public class LogWaterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_water);
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         initView();
-        mCircleProgress.setProgress(100*userWater/MAX_WATER);
-        mTextViewTotal.setText(getString(R.string.water_textview)+userWater+getString(R.string.ml));
+        mCircleProgress.setProgress(100 * userWater / MAX_WATER);
+        mTextViewTotal.setText(getString(R.string.water_textview) + userWater + getString(R.string.ml));
 
         mBtnInputWater.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,8 +49,9 @@ public class LogWaterActivity extends AppCompatActivity {
                 getWaterFromUser();
             }
         });
-    }
 
+
+    }
     private void initView() {
         mWaveHeader = findViewById(R.id.waveHeader);
         mWaveHeader.isRunning();
@@ -85,5 +93,14 @@ public class LogWaterActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id==android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

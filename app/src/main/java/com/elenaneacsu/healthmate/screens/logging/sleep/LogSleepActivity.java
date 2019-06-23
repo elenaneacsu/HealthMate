@@ -1,8 +1,10 @@
-package com.elenaneacsu.healthmate.screens;
+package com.elenaneacsu.healthmate.screens.logging.sleep;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,7 +12,7 @@ import android.widget.TextView;
 import com.elenaneacsu.healthmate.R;
 import com.yinglan.circleviewlibrary.CircleAlarmTimerView;
 
-public class SleepActivity extends AppCompatActivity {
+public class LogSleepActivity extends AppCompatActivity {
 
     private CircleAlarmTimerView mTimerView;
     private TextView mTextViewBedtime;
@@ -26,6 +28,11 @@ public class SleepActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         initView();
 
@@ -86,5 +93,14 @@ public class SleepActivity extends AppCompatActivity {
             diffHour++;
         }
         return diffHour;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id==android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

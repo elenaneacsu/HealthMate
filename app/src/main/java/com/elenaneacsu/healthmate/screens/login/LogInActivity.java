@@ -39,10 +39,11 @@ public class LogInActivity extends AppCompatActivity {
         initView();
 
         createAuthProgressDialog();
-//        mSharedPreferences = getSharedPreferences("LOGIN", MODE_PRIVATE);
-//        if(mSharedPreferences.getBoolean("logged", false)) {
-//            startActivity(new Intent(LogInActivity.this, MainActivity.class));
-//        }
+        mSharedPreferences = getSharedPreferences("LOGIN", MODE_PRIVATE);
+        if(mSharedPreferences.getBoolean("logged", false)) {
+            startActivity(new Intent(LogInActivity.this, MainActivity.class));
+            finish();
+        }
     }
 
     private void initView() {
@@ -84,7 +85,8 @@ public class LogInActivity extends AppCompatActivity {
                             FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
                             if (currentUser.isEmailVerified()) {
                                 startActivity(new Intent(LogInActivity.this, MainActivity.class));
-                               // mSharedPreferences.edit().putBoolean("logged", true).apply();
+                               mSharedPreferences.edit().putBoolean("logged", true).apply();
+                               finish();
                             } else {
                                 Toast.makeText(getApplicationContext(), getString(R.string.verify_email), Toast.LENGTH_LONG).show();
                             }
