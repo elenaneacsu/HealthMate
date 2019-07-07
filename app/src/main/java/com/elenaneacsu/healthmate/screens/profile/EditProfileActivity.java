@@ -130,7 +130,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 Intent intent = new Intent(EditProfileActivity.this, MainActivity.class);
                 intent.putExtra(FRAGMENT, 0);
                 startActivity(intent);
-
+                finish();
         }
     }
 

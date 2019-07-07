@@ -25,12 +25,14 @@ import com.elenaneacsu.healthmate.model.Hint;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
 
 import static com.elenaneacsu.healthmate.utils.Constants.FOOD_CLICKED;
 import static com.elenaneacsu.healthmate.utils.ToastUtil.showToast;
@@ -39,6 +41,7 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
     private ProgressDialog mProgressDialog;
     private FoodAdapter mFoodAdapter;
     private List<Hint> mHintList = new ArrayList<>();
+    private Retrofit mRetrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,8 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        mRetrofit = RetrofitHelper.getRetrofitInstance();
 
         setUpRecyclerView();
         createProgressDialog();
@@ -103,6 +108,7 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
     }
 
     private void searchFood(final String item) {
+
         RetrofitHelper.getFoodResponse(item)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -123,18 +129,15 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
                     public void onSubscribe(Disposable d) {
 
                     }
-
                     @Override
                     public void onNext(FoodResponse foodResponse) {
                         mHintList.clear();
                         mHintList.addAll(foodResponse.getHints());
                     }
-
                     @Override
                     public void onError(Throwable e) {
                         showToast(getApplicationContext(), "No results found");
                     }
-
                     @Override
                     public void onComplete() {
                         mFoodAdapter.notifyDataSetChanged();
@@ -153,7 +156,7 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id==android.R.id.home) {
+        if (id == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

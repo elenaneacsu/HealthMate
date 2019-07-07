@@ -1,5 +1,6 @@
 package com.elenaneacsu.healthmate.screens.logging.sleep;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ public class LogSleepActivity extends AppCompatActivity {
     private CircleAlarmTimerView mTimerView;
     private TextView mTextViewBedtime;
     private TextView mTextViewWakeup;
+    private TextView mTextViewSleepAdvice;
     private Button mBtnSave;
 
     private String bedtime;
@@ -57,12 +59,20 @@ public class LogSleepActivity extends AppCompatActivity {
                 Log.d("test", "onClick: "+hoursSlept);
             }
         });
+
+        mTextViewSleepAdvice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LogSleepActivity.this, SleepAdviceActivity.class));
+            }
+        });
     }
 
     private void initView() {
         mTimerView = findViewById(R.id.timer_view);
         mTextViewBedtime = findViewById(R.id.textview_bedtime);
         mTextViewWakeup = findViewById(R.id.textview_wakeup);
+        mTextViewSleepAdvice = findViewById(R.id.textview_sleepadvice);
         mBtnSave = findViewById(R.id.btn_save);
     }
 

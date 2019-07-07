@@ -29,6 +29,8 @@ public class Food implements Serializable, Parcelable {
     @Expose
     private String categoryLabel;
 
+    public Food(){}
+
     public String getFoodId() {
         return foodId;
     }

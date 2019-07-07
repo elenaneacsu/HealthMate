@@ -100,4 +100,12 @@
     <string name="i_want_to_wake_up_at">I want to wake up at...</string>
     <string name="select_time">Select time</string>
     <string name="i_want_to_go_to_sleep_at">I want to go to sleep at...</string>
+    <string name="please_add_your_email">Please add your email</string>
+    <string name="please_add_your_password">Please add your password</string>
+    <string name="did_you_forget_your_password">Did you forget your password?</string>
+    <string name="need_some_sleep_advice">Need some sleep advice?</string>
+    <string name="statistics">Statistics</string>
+    <string name="protein">PROTEIN</string>
+    <string name="fat">FAT</string>
+    <string name="carbs">CARBS</string>
 </resources>

@@ -59,15 +59,12 @@ public class LogInActivity extends AppCompatActivity {
     public void login(View view) {
         String email = mEditTextEmail.getText().toString();
         String password = mEditTextPassword.getText().toString();
-
         if (email.isEmpty()) {
-            mEditTextEmail.setError("Please add your email");
+            mEditTextEmail.setError(getString(com.elenaneacsu.healthmate.R.string.please_add_your_email));
         }
-
         if (password.isEmpty()) {
-            mEditTextPassword.setError("Please add your password");
+            mEditTextPassword.setError(getString(com.elenaneacsu.healthmate.R.string.please_add_your_password));
         }
-
         if (password.length() < 6) {
             showToast(getApplicationContext(), getString(R.string.wrong_credentials));
         }

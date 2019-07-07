@@ -77,8 +77,9 @@ public class MealAdapter extends ExpandableRecyclerViewAdapter<MealAdapter.MealV
 
         public void bind(ExpandableGroup meal) {
             mTextViewMealType.setText(meal.getTitle());
-            double calories = ((Meal) meal).getCalories();
-            mTextViewMealCalories.setText(String.format("%.2f", calories));
+            //double calories = ((Meal) meal).getCalories();
+            //mTextViewMealCalories.setText(String.format("%.2f", calories));
+            mTextViewMealCalories.setText("200");
         }
 
         @Override
@@ -129,12 +130,13 @@ public class MealAdapter extends ExpandableRecyclerViewAdapter<MealAdapter.MealV
 
         public void bind(Food food) {
             mTextViewFoodLabel.setText(food.getLabel());
-            if (food.getBrand() == null) {
-                mTextViewFoodDetails.setText(food.getCategory());
-            } else {
-                mTextViewFoodDetails.setText(food.getBrand());
-            }
-            mTextViewFoodCalories.setText(String.format("%.2f", food.getNutrients().getENER_KCAL()));
+//            if (food.getBrand() == null) {
+//                mTextViewFoodDetails.setText(food.getCategory());
+//            } else {
+//                mTextViewFoodDetails.setText(food.getBrand());
+//            }
+            //mTextViewFoodCalories.setText(String.format("%.2f", food.getNutrients().getENER_KCAL()));
+            mTextViewFoodCalories.setText("100");
         }
     }
 

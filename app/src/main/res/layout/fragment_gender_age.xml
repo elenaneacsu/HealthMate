@@ -16,7 +16,7 @@
             android:id="@+id/textview_question"
             style="@style/textview_signup"
             android:layout_marginTop="8dp"
-            android:text="@string/i_am"
+            android:text="@string/gender_you_identify_with"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_back" />

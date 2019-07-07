@@ -20,7 +20,7 @@
         <activity android:name=".screens.signup.SignUpActivity" />
         <activity
             android:name=".screens.MainActivity"
-            android:label="@string/title_activity_main"
+            android:label="HealthMate"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".screens.logging.water.LogWaterActivity" />
         <activity
@@ -35,13 +35,14 @@
             android:name=".screens.recipe.RecipeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".screens.SplashScreenActivity">
+        </activity>
+        <activity android:name=".screens.logging.sleep.SleepAdviceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screens.logging.sleep.SleepAdviceActivity"></activity>
     </application>
 
 </manifest>

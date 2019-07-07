@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
-    tools:context=".screens.login.LogInActivity"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".screens.login.LogInActivity">
 
     <ImageView
         android:id="@+id/imageview_logo"
@@ -56,23 +56,38 @@
         style="@style/button_login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:onClick="login"
         android:text="@string/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_password"
-        android:onClick="login"/>
+        app:layout_constraintTop_toBottomOf="@+id/edittext_password" />
 
     <TextView
         android:id="@+id/textview_signup"
         style="@style/textview_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="goToSignUp"
         android:text="@string/don_t_have_an_account_create_one"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login"
-        android:onClick="goToSignUp"/>
+        app:layout_constraintTop_toBottomOf="@+id/textview_forgotpassword" />
+
+    <TextView
+        android:id="@+id/textview_forgotpassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/did_you_forget_your_password"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
 
 </android.support.constraint.ConstraintLayout>

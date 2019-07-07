@@ -37,21 +37,18 @@ public class RetrofitHelper {
     }
 
     public static Observable<FoodResponse> getFoodResponse(String query) {
-        Retrofit retrofit = getRetrofitInstance();
-        FoodRequestService requestService = retrofit.create(FoodRequestService.class);
+        FoodRequestService requestService = getRetrofitInstance().create(FoodRequestService.class);
         return requestService.responseService(query);
     }
 
     public static Observable<FoodDetailResponse> getFoodDetailResponse(FoodRequest foodRequest) {
-        Retrofit retrofit = getRetrofitInstance();
-        FoodDetailRequestService requestService = retrofit.create(FoodDetailRequestService.class);
-        return requestService.responseService(foodRequest);
+        FoodRequestService requestService = getRetrofitInstance().create(FoodRequestService.class);
+        return requestService.responseDetailService(foodRequest);
     }
 
     public static Observable<RecipeResponse> getRecipeResponse(String query, int from, int to) {
-        Retrofit retrofit = getRetrofitInstance();
-        RecipeRequestService requestService = retrofit.create(RecipeRequestService.class);
-        return requestService.responseService(query, from, to);
+        FoodRequestService requestService = getRetrofitInstance().create(FoodRequestService.class);
+        return requestService.responseRecipeService(query, from, to);
     }
 
     public interface FoodRequestService {
@@ -60,24 +57,21 @@ public class RetrofitHelper {
         Observable<FoodResponse> responseService(
                 @Query("ingr") String query
         );
-    }
 
-    public interface FoodDetailRequestService {
         @Headers({
                 "Content-Type:application/json"})
         @POST(BASE_URL + "api/food-database/nutrients?app_id=" + APP_ID_FOOD + "&app_key="
                 + APP_KEY_FOOD)
-        Observable<FoodDetailResponse> responseService(
+        Observable<FoodDetailResponse> responseDetailService(
                 @Body FoodRequest foodRequest);
-    }
 
-    public interface RecipeRequestService {
         @GET(BASE_URL + "search?app_id=" + APP_ID_RECIPE + "&app_key="
                 + APP_KEY_RECIPE)
-        Observable<RecipeResponse> responseService(
+        Observable<RecipeResponse> responseRecipeService(
                 @Query("q") String query,
                 @Query("from") int from,
                 @Query("to") int to
         );
     }
+
 }

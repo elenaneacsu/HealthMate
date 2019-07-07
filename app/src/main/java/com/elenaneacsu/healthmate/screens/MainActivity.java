@@ -53,10 +53,8 @@ public class MainActivity extends AppCompatActivity
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             int fragment = bundle.getInt(FRAGMENT);
-            switch (fragment) {
-                case 0:
-                    initFragment(new ViewProfileFragment());
-                    break;
+            if(fragment == 0) {
+                initFragment(new ViewProfileFragment());
             }
         }
 
@@ -192,10 +190,6 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, LogSleepActivity.class));
         } else if(id == R.id.nav_logout) {
             logout();
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

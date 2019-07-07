@@ -117,7 +117,6 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
         switch(v.getId()) {
             case R.id.circularImageView:
                 requestMultiplePermissions();
-                Log.d("tag", "onClick: clicked");
                 break;
             case R.id.btn_edit:
                 Intent intent = new Intent(getContext(), EditProfileActivity.class);
