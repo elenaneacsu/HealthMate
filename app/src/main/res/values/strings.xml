@@ -108,4 +108,12 @@
     <string name="protein">PROTEIN</string>
     <string name="fat">FAT</string>
     <string name="carbs">CARBS</string>
+    <string name="for_how_long_have_you_performed_this_exercise_mins">For how long have you performed this exercise? (mins)</string>
+    <string name="for_how_long_minutes">For how long? (minutes)</string>
+    <string name="weight_history">Weight History</string>
+    <string name="add_new_entry">Add new entry</string>
+    <string name="your_weight_in_kgs">Your weight (in kgs)</string>
+    <string name="select_a_date">Select a date</string>
+    <string name="provide_weight">Please provide a value for the weight!</string>
+    <string name="provide_date">Please select a date!</string>
 </resources>

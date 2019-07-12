@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".screens.login.LogInActivity"
-            android:theme="@style/AppTheme.Dark"></activity>
+            android:theme="@style/AppTheme.Dark" />
         <activity android:name=".screens.signup.SignUpActivity" />
         <activity
             android:name=".screens.MainActivity"
@@ -35,14 +35,16 @@
             android:name=".screens.recipe.RecipeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".screens.SplashScreenActivity">
-        </activity>
-        <activity android:name=".screens.logging.sleep.SleepAdviceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".screens.logging.sleep.SleepAdviceActivity"></activity>
+        <activity android:name=".screens.logging.exercise.LogExerciseActivity" />
+        <activity android:name=".screens.logging.exercise.ExerciseDetailActivity" />
+        <activity android:name=".screens.logging.weight_history.AddWeightRecordActivity"></activity>
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@ public class Constants {
     public static final String SELECTED_DATE = "selected_date";
     public static final String FOOD_CLICKED = "food_clicked";
     public static final String RECIPE_CLICKED = "recipe_clicked";
+    public static final String EXERCISE_CLICKED = "exercise_clicked";
     public static final int MAX_WATER = 2000;
     public static final String BASE_URL = "https://api.edamam.com/";
     public static final String SEARCH_QUERY = "search_query";

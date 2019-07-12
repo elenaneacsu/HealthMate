@@ -67,7 +67,6 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
         if (bundle != null) {
             mHint = (Hint) bundle.getSerializable(FOOD_CLICKED);
             foodId = mHint.getFood().getFoodId();
-            Log.d("tag", "onCreate: "+foodId);
             mTextViewFoodName.setText(mHint.getFood().getLabel());
         }
 

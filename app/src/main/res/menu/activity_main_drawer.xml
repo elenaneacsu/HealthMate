@@ -26,10 +26,19 @@
             android:icon="@drawable/ic_sleep_black"
             android:title="@string/sleep" />
 
+        <item android:id="@+id/nav_weight"
+            android:icon="@drawable/ic_scale"
+            android:title="@string/weight_history"/>
+
         <item
             android:id="@+id/nav_statistics"
             android:icon="@drawable/ic_statistics"
             android:title="@string/statistics"/>
+
+        <item
+            android:id="@+id/nav_notifications"
+            android:icon="@drawable/ic_notifications"
+            android:title="Notifications"/>
 
         <item
             android:id="@+id/nav_logout"

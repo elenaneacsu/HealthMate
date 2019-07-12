@@ -41,7 +41,6 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
     private ProgressDialog mProgressDialog;
     private FoodAdapter mFoodAdapter;
     private List<Hint> mHintList = new ArrayList<>();
-    private Retrofit mRetrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +51,6 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        mRetrofit = RetrofitHelper.getRetrofitInstance();
 
         setUpRecyclerView();
         createProgressDialog();

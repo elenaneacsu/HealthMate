@@ -21,11 +21,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.elenaneacsu.healthmate.R;
+import com.elenaneacsu.healthmate.screens.logging.exercise.LogExerciseActivity;
 import com.elenaneacsu.healthmate.screens.logging.food.LogFoodActivity;
 import com.elenaneacsu.healthmate.screens.logging.sleep.LogSleepActivity;
 import com.elenaneacsu.healthmate.screens.logging.water.LogWaterActivity;
+import com.elenaneacsu.healthmate.screens.logging.weight_history.WeightHistoryFragment;
 import com.elenaneacsu.healthmate.screens.login.LogInActivity;
 import com.elenaneacsu.healthmate.screens.main.MainFragment;
+import com.elenaneacsu.healthmate.screens.notifications.NotificationsFragment;
 import com.elenaneacsu.healthmate.screens.profile.ViewProfileFragment;
 import com.elenaneacsu.healthmate.screens.recipe.SearchRecipeFragment;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
@@ -128,7 +131,7 @@ public class MainActivity extends AppCompatActivity
                 .listener(new OnBMClickListener() {
                     @Override
                     public void onBoomButtonClick(int index) {
-                        Intent intent = new Intent(MainActivity.this, LogWaterActivity.class);
+                        Intent intent = new Intent(MainActivity.this, LogExerciseActivity.class);
                         startActivity(intent);
                     }
                 });
@@ -188,7 +191,12 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, LogWaterActivity.class));
         } else if (id == R.id.nav_sleep) {
             startActivity(new Intent(MainActivity.this, LogSleepActivity.class));
-        } else if(id == R.id.nav_logout) {
+        } else if(id==R.id.nav_weight) {
+            initFragment(new WeightHistoryFragment());
+        }else if(id == R.id.nav_notifications) {
+            initFragment(new NotificationsFragment());
+        }
+        else if(id == R.id.nav_logout) {
             logout();
         }
 

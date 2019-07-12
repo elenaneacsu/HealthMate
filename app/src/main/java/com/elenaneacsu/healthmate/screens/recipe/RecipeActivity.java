@@ -1,5 +1,7 @@
 package com.elenaneacsu.healthmate.screens.recipe;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -58,8 +60,8 @@ public class RecipeActivity extends AppCompatActivity {
             mLabels.addAll(mRecipe.getHealthLabels());
             mTextViewUrl.setText(mRecipe.getUrl());
             DecimalFormat df = new DecimalFormat("#.##");
-            mTextViewWeight.setText(df.format(mRecipe.getTotalWeight())+" g");
-            mTextViewCalories.setText(df.format(mRecipe.getCalories())+" kcal");
+            mTextViewWeight.setText(df.format(mRecipe.getTotalWeight()) + " g");
+            mTextViewCalories.setText(df.format(mRecipe.getCalories()) + " kcal");
             Picasso.get().load(mRecipe.getImage()).into(mImageView);
         }
 
@@ -71,6 +73,18 @@ public class RecipeActivity extends AppCompatActivity {
         });
 
         setUpRecyclerView();
+
+        mTextViewUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mRecipe != null) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(mRecipe.getUrl()));
+                    startActivity(intent);
+                }
+
+            }
+        });
     }
 
     private void initView() {
