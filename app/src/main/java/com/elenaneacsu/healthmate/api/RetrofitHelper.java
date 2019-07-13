@@ -3,7 +3,6 @@ package com.elenaneacsu.healthmate.api;
 import com.elenaneacsu.healthmate.model.FoodDetailResponse;
 import com.elenaneacsu.healthmate.model.FoodRequest;
 import com.elenaneacsu.healthmate.model.FoodResponse;
-import com.elenaneacsu.healthmate.model.Ingredient;
 import com.elenaneacsu.healthmate.model.RecipeResponse;
 
 import io.reactivex.Observable;
@@ -38,7 +37,12 @@ public class RetrofitHelper {
 
     public static Observable<FoodResponse> getFoodResponse(String query) {
         FoodRequestService requestService = getRetrofitInstance().create(FoodRequestService.class);
-        return requestService.responseService(query);
+        return requestService.responseFoodService(query);
+    }
+
+    public static Observable<FoodResponse> getBarcodeResponse(long upc) {
+        FoodRequestService requestService = getRetrofitInstance().create(FoodRequestService.class);
+        return requestService.responseBarcodeService(upc);
     }
 
     public static Observable<FoodDetailResponse> getFoodDetailResponse(FoodRequest foodRequest) {
@@ -54,8 +58,14 @@ public class RetrofitHelper {
     public interface FoodRequestService {
         @GET(BASE_URL + "api/food-database/parser?app_id=" + APP_ID_FOOD + "&app_key="
                 + APP_KEY_FOOD)
-        Observable<FoodResponse> responseService(
+        Observable<FoodResponse> responseFoodService(
                 @Query("ingr") String query
+        );
+
+        @GET(BASE_URL + "api/food-database/parser?app_id=" + APP_ID_FOOD + "&app_key="
+                + APP_KEY_FOOD)
+        Observable<FoodResponse> responseBarcodeService(
+                @Query("upc") long upc
         );
 
         @Headers({

@@ -3,11 +3,12 @@ package com.elenaneacsu.healthmate.screens.login;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.elenaneacsu.healthmate.R;
@@ -25,6 +26,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private EditText mEditTextEmail;
     private EditText mEditTextPassword;
+    private TextView mTextViewForgotPassword;
     private ProgressDialog mAuthProgressDialog;
     private FirebaseAuth mFirebaseAuth;
     public SharedPreferences mSharedPreferences;
@@ -40,15 +42,24 @@ public class LogInActivity extends AppCompatActivity {
 
         createAuthProgressDialog();
         mSharedPreferences = getSharedPreferences("LOGIN", MODE_PRIVATE);
-        if(mSharedPreferences.getBoolean("logged", false)) {
+        if (mSharedPreferences.getBoolean("logged", false)) {
             startActivity(new Intent(LogInActivity.this, MainActivity.class));
             finish();
         }
+
+        mTextViewForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LogInActivity.this, ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initView() {
         mEditTextEmail = findViewById(R.id.edittext_email);
         mEditTextPassword = findViewById(R.id.edittext_password);
+        mTextViewForgotPassword = findViewById(R.id.textview_forgotpassword);
     }
 
     public void goToSignUp(View view) {
@@ -82,8 +93,8 @@ public class LogInActivity extends AppCompatActivity {
                             FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
                             if (currentUser.isEmailVerified()) {
                                 startActivity(new Intent(LogInActivity.this, MainActivity.class));
-                               mSharedPreferences.edit().putBoolean("logged", true).apply();
-                               finish();
+                                mSharedPreferences.edit().putBoolean("logged", true).apply();
+                                finish();
                             } else {
                                 Toast.makeText(getApplicationContext(), getString(R.string.verify_email), Toast.LENGTH_LONG).show();
                             }

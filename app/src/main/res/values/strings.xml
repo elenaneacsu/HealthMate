@@ -116,4 +116,9 @@
     <string name="select_a_date">Select a date</string>
     <string name="provide_weight">Please provide a value for the weight!</string>
     <string name="provide_date">Please select a date!</string>
+    <string name="reset_your_password">Reset your password</string>
+    <string name="notifications">Notifications</string>
+    <string name="delete_my_account">Delete my account</string>
+    <string name="delete_account_confirmation">Are you sure you want to delete your account?</string>
+    <string name="scan">Scan</string>
 </resources>

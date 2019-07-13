@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -31,11 +33,16 @@ import com.elenaneacsu.healthmate.screens.main.MainFragment;
 import com.elenaneacsu.healthmate.screens.notifications.NotificationsFragment;
 import com.elenaneacsu.healthmate.screens.profile.ViewProfileFragment;
 import com.elenaneacsu.healthmate.screens.recipe.SearchRecipeFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 
 import static com.elenaneacsu.healthmate.utils.Constants.FRAGMENT;
+import static com.elenaneacsu.healthmate.utils.ToastUtil.showToast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -195,8 +202,9 @@ public class MainActivity extends AppCompatActivity
             initFragment(new WeightHistoryFragment());
         }else if(id == R.id.nav_notifications) {
             initFragment(new NotificationsFragment());
-        }
-        else if(id == R.id.nav_logout) {
+        } else if(id == R.id.nav_deleteaccount) {
+            deleteAccount();
+        }else if(id == R.id.nav_logout) {
             logout();
         }
 
@@ -210,6 +218,48 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
+    }
+
+    private void deleteAccount() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.delete_my_account);
+        builder.setMessage(com.elenaneacsu.healthmate.R.string.delete_account_confirmation);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteUserFromFirebase();
+            }
+        });
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+    }
+
+    private void deleteUserFromFirebase() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user.delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            finishActivity();
+                            showToast(getApplicationContext(), "Your account has been successfully deleted");
+                        } else {
+                            showToast(getApplicationContext(), "An error occurred");
+                        }
+                    }
+                });
+    }
+
+    private void finishActivity() {
+        SharedPreferences sp = getSharedPreferences("LOGIN", MODE_PRIVATE);
+        sp.edit().putBoolean("logged", false).apply();
+        startActivity(new Intent(MainActivity.this, LogInActivity.class));
+        finish();
     }
 
     private void logout() {

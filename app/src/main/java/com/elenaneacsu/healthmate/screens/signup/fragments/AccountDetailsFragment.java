@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import com.elenaneacsu.healthmate.R;
 import com.elenaneacsu.healthmate.model.User;
+import com.elenaneacsu.healthmate.model.WeightRecord;
 import com.elenaneacsu.healthmate.screens.login.LogInActivity;
 import com.elenaneacsu.healthmate.screens.signup.SignUpActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +24,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Calendar;
 
 import static com.elenaneacsu.healthmate.utils.Constants.USER;
 import static com.elenaneacsu.healthmate.utils.ToastUtil.showToast;
@@ -123,6 +126,13 @@ public class AccountDetailsFragment extends Fragment {
                                         }
                                         startActivity(new Intent(signUpActivity, LogInActivity.class));
                                         mFirestore.collection("users").document(currentUser.getUid()).set(user);
+
+                                        WeightRecord weightRecord = new WeightRecord();
+                                        weightRecord.setWeight(user.getCurrentWeight());
+                                        weightRecord.setDate(Calendar.getInstance().getTime());
+                                        mFirestore.collection("users").document(currentUser.getUid())
+                                                .collection("weight_history").add(weightRecord);
+
                                         getActivity().finish();
                                     }
                                 }
