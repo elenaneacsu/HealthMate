@@ -1,5 +1,6 @@
 package com.elenaneacsu.healthmate.screens.logging.food;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
@@ -23,6 +24,8 @@ import com.elenaneacsu.healthmate.model.FoodRequest;
 import com.elenaneacsu.healthmate.model.Hint;
 import com.elenaneacsu.healthmate.model.Ingredient;
 import com.elenaneacsu.healthmate.model.Measure;
+import com.elenaneacsu.healthmate.screens.MainActivity;
+import com.elenaneacsu.healthmate.screens.profile.EditProfileActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -40,6 +43,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.elenaneacsu.healthmate.utils.Constants.FOOD_CLICKED;
+import static com.elenaneacsu.healthmate.utils.Constants.FRAGMENT;
 import static com.elenaneacsu.healthmate.utils.ToastUtil.showToast;
 
 public class FoodDetailActivity extends AppCompatActivity implements View.OnClickListener {
@@ -58,14 +62,14 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
     private String uri;
     private String foodId;
 
-    private double totalCaloriesPerFood;
-    private double protein;
-    private double fat;
-    private double carbs;
-    private double dayEatenCals;
-    private double dayCarbs;
-    private double dayProtein;
-    private double dayFat;
+    private long totalCaloriesPerFood;
+    private long protein;
+    private long fat;
+    private long carbs;
+    private long dayEatenCals;
+    private long dayCarbs;
+    private long dayProtein;
+    private long dayFat;
     private String mealType;
 
     private FirebaseFirestore mFirebaseFirestore;
@@ -130,6 +134,8 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.imagebutton_savedata:
                 saveData();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
                 finish();
                 break;
         }
@@ -158,22 +164,22 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
                     @Override
                     public void onNext(FoodDetailResponse foodDetailResponse) {
                         if (foodDetailResponse.getTotalNutrients().getEnerckal() != null) {
-                            totalCaloriesPerFood = foodDetailResponse.getTotalNutrients().getEnerckal().getQuantity();
+                            totalCaloriesPerFood = Math.round(foodDetailResponse.getTotalNutrients().getEnerckal().getQuantity());
                         } else {
                             totalCaloriesPerFood = 0;
                         }
                         if (foodDetailResponse.getTotalNutrients().getProcnt() != null) {
-                            protein = foodDetailResponse.getTotalNutrients().getProcnt().getQuantity();
+                            protein = Math.round(foodDetailResponse.getTotalNutrients().getProcnt().getQuantity());
                         } else {
                             protein = 0;
                         }
                         if (foodDetailResponse.getTotalNutrients().getFat() != null) {
-                            fat = foodDetailResponse.getTotalNutrients().getFat().getQuantity();
+                            fat = Math.round(foodDetailResponse.getTotalNutrients().getFat().getQuantity());
                         } else {
                             fat = 0;
                         }
                         if (foodDetailResponse.getTotalNutrients().getChocdf() != null) {
-                            carbs = foodDetailResponse.getTotalNutrients().getChocdf().getQuantity();
+                            carbs = Math.round(foodDetailResponse.getTotalNutrients().getChocdf().getQuantity());
                         } else {
                             carbs = 0;
                         }
@@ -203,9 +209,8 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
         foodRequest.setIngredients(ingredients);
         getFoodNutrients(foodRequest);
 
-        DecimalFormat df = new DecimalFormat("#.##");
         mLayout.setVisibility(View.VISIBLE);
-        mTextViewCalories.setText(String.valueOf(df.format(totalCaloriesPerFood)));
+        mTextViewCalories.setText(String.valueOf(totalCaloriesPerFood));
     }
 
     private void saveData() {
@@ -229,10 +234,10 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                dayEatenCals = (double) documentSnapshot.get("eatenCalories");
-                dayCarbs = (double) documentSnapshot.get("carbs");
-                dayProtein = (double) documentSnapshot.get("protein");
-                dayFat = (double) documentSnapshot.get("fat");
+                dayEatenCals = (long) documentSnapshot.get("eatenCalories");
+                dayCarbs = (long) documentSnapshot.get("carbs");
+                dayProtein = (long) documentSnapshot.get("protein");
+                dayFat = (long) documentSnapshot.get("fat");
             }
         });
         new Handler().postDelayed(new Runnable() {

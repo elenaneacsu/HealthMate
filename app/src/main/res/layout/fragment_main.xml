@@ -239,19 +239,38 @@
             </android.support.constraint.ConstraintLayout>
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/textview_date"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="Today"
-            android:textSize="16sp" />
+            android:layout_marginBottom="8dp"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/button_back"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/textview_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:text="Today"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/button_forward"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_right" />
+        </LinearLayout>
 
         <include layout="@layout/card_meal_main" />
-
-        <include layout="@layout/space" />
-
 
     </LinearLayout>
 </ScrollView>

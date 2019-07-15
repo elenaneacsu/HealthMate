@@ -7,24 +7,23 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.elenaneacsu.healthmate.R;
-import com.elenaneacsu.healthmate.screens.MainActivity;
 import com.elenaneacsu.healthmate.model.User;
+import com.elenaneacsu.healthmate.screens.MainActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
-import javax.annotation.Nullable;
+import java.util.Calendar;
 
 import static com.elenaneacsu.healthmate.utils.CaloriesUtils.calculateGoalCalories;
 import static com.elenaneacsu.healthmate.utils.Constants.FRAGMENT;
@@ -61,6 +60,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private float currentWeight;
     private float goalWeight;
     private int height;
+    private long updatedGoalCalories;
 
     //private User loggedUser;
 
@@ -129,6 +129,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.btn_save:
                 saveToFirestore();
+                //updateGoalCalories();
                 Intent intent = new Intent(EditProfileActivity.this, MainActivity.class);
                 intent.putExtra(FRAGMENT, 0);
                 startActivity(intent);
@@ -414,51 +415,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         final FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
         if (currentUser != null) {
             final DocumentReference documentReference = mFirestore.collection("users").document(currentUser.getUid());
-//            documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-//                @Override
-//                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-//                    User user = documentSnapshot.toObject(User.class);
-//                    String oldName, oldGoal, oldActivityLevel, oldGender;
-//                    int oldHeight, oldAge;
-//                    float oldGoalWeight, oldCurrentWeight;
-//                    if(user!=null) {
-//                        oldName = user.getName();
-//                        oldGoal = user.getGoal();
-//                        oldActivityLevel = user.getActivityLevel();
-//                        oldGender = user.getGender();
-//                        oldHeight = user.getHeight();
-//                        oldAge = user.getAge();
-//                        oldGoalWeight = user.getDesiredWeight();
-//                        oldCurrentWeight = user.getCurrentWeight();
-//                        if (!oldName.equals(name)) {
-//                            documentReference.update("name", name);
-//                        }
-//                        if (!oldGoal.equals(goal)) {
-//                            documentReference.update("goal", goal);
-//                        }
-//                        if (!oldActivityLevel.equals(activityLevel)) {
-//                            documentReference.update("activityLevel", activityLevel);
-//                        }
-//                        if (!oldGender.equals(gender)) {
-//                            documentReference.update("gender", gender);
-//                        }
-//                        if(oldHeight!=height) {
-//                            documentReference.update("height", height);
-//                        }
-//                        if(oldAge!=age) {
-//                            documentReference.update("age", age);
-//                        }
-//                        if(oldCurrentWeight!=currentWeight) {
-//                            documentReference.update("currentWeight", currentWeight);
-//                        }
-//                        if(oldGoalWeight!=goalWeight) {
-//                            documentReference.update("desiredWeight", goalWeight);
-//                        }
-////                        loggedUser = new User(name, goal, activityLevel, gender, age, currentWeight, goalWeight, height);
-////                        calculateGoalCalories(loggedUser);
-//                    }
-//                }
-//            });
             documentReference.update("name", name);
             documentReference.update("age", age);
             documentReference.update("currentWeight", currentWeight);
@@ -468,5 +424,20 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             documentReference.update("height", height);
             documentReference.update("activityLevel", activityLevel);
         }
+        updateGoalCalories();
+    }
+
+    private void updateGoalCalories() {
+        DocumentReference docRef = mFirestore.collection("users").document(mFirebaseAuth.getCurrentUser().getUid());
+        User user = new User(name, goal, activityLevel, gender, age, currentWeight, goalWeight, height);
+
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        docRef.collection("stats")
+                .document(String.valueOf(year)).collection(String.valueOf(month))
+                .document(String.valueOf(day)).update("goalCalories", calculateGoalCalories(user));
     }
 }

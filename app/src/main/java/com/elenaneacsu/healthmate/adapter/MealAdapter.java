@@ -127,7 +127,7 @@ public class MealAdapter extends ExpandableRecyclerViewAdapter<MealAdapter.MealV
         public void bind(FirestoreFood food) {
             mTextViewFoodLabel.setText(food.getLabel());
             mTextViewFoodDetails.setText(food.getDescription());
-            mTextViewFoodCalories.setText(String.format("%.2f", food.getCalories()));
+            mTextViewFoodCalories.setText(String.valueOf(food.getCalories()));
         }
     }
 

@@ -6,14 +6,14 @@ import android.os.Parcelable;
 public class FirestoreFood implements Parcelable {
     private String label;
     private String description;
-    private double calories;
-    private double fat;
-    private double carbs;
-    private double protein;
+    private long calories;
+    private long fat;
+    private long carbs;
+    private long protein;
 
     public FirestoreFood(){}
 
-    public FirestoreFood(String label, String description, double calories, double fat, double carbs, double protein) {
+    public FirestoreFood(String label, String description, long calories, long fat, long carbs, long protein) {
         this.label = label;
         this.description = description;
         this.calories = calories;
@@ -38,45 +38,45 @@ public class FirestoreFood implements Parcelable {
         this.description = description;
     }
 
-    public double getCalories() {
+    public long getCalories() {
         return calories;
     }
 
-    public void setCalories(double calories) {
+    public void setCalories(long calories) {
         this.calories = calories;
     }
 
-    public double getFat() {
+    public long getFat() {
         return fat;
     }
 
-    public void setFat(double fat) {
+    public void setFat(long fat) {
         this.fat = fat;
     }
 
-    public double getCarbs() {
+    public long getCarbs() {
         return carbs;
     }
 
-    public void setCarbs(double carbs) {
+    public void setCarbs(long carbs) {
         this.carbs = carbs;
     }
 
-    public double getProtein() {
+    public long getProtein() {
         return protein;
     }
 
-    public void setProtein(double protein) {
+    public void setProtein(long protein) {
         this.protein = protein;
     }
 
     protected FirestoreFood(Parcel in) {
         label = in.readString();
         description = in.readString();
-        calories = in.readDouble();
-        fat = in.readDouble();
-        carbs = in.readDouble();
-        protein = in.readDouble();
+        calories = in.readLong();
+        fat = in.readLong();
+        carbs = in.readLong();
+        protein = in.readLong();
     }
 
     @Override
@@ -88,10 +88,10 @@ public class FirestoreFood implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(label);
         dest.writeString(description);
-        dest.writeDouble(calories);
-        dest.writeDouble(fat);
-        dest.writeDouble(carbs);
-        dest.writeDouble(protein);
+        dest.writeLong(calories);
+        dest.writeLong(fat);
+        dest.writeLong(carbs);
+        dest.writeLong(protein);
     }
 
     @SuppressWarnings("unused")
