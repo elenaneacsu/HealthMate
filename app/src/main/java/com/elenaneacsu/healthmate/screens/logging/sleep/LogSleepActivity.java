@@ -11,7 +11,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.elenaneacsu.healthmate.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.yinglan.circleviewlibrary.CircleAlarmTimerView;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.elenaneacsu.healthmate.utils.ToastUtil.showToast;
 
 public class LogSleepActivity extends AppCompatActivity {
 
@@ -25,6 +33,8 @@ public class LogSleepActivity extends AppCompatActivity {
     private String wakeup;
     private int hoursSlept;
 
+    private FirebaseFirestore mFirebaseFirestore;
+    private FirebaseAuth mFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +45,9 @@ public class LogSleepActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        mFirebaseFirestore = FirebaseFirestore.getInstance();
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
         initView();
 
@@ -56,7 +69,7 @@ public class LogSleepActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 hoursSlept = computeTimeDiff(bedtime, wakeup);
-                Log.d("test", "onClick: "+hoursSlept);
+                saveData();
             }
         });
 
@@ -103,6 +116,19 @@ public class LogSleepActivity extends AppCompatActivity {
             diffHour++;
         }
         return diffHour;
+    }
+
+    private void saveData() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        mFirebaseFirestore.collection("users").document(mFirebaseAuth.getCurrentUser().getUid())
+                .collection("stats").document(String.valueOf(year)).collection(String.valueOf(month)).document(String.valueOf(day))
+                .update("hoursOfSleep", hoursSlept);
+
+        showToast(this, "Sleep hours saved!");
     }
 
     @Override

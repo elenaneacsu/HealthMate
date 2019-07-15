@@ -1,10 +1,10 @@
 package com.elenaneacsu.healthmate.screens.logging.food;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,14 +17,21 @@ import android.widget.TextView;
 import com.elenaneacsu.healthmate.R;
 import com.elenaneacsu.healthmate.adapter.SpinnerAdapter;
 import com.elenaneacsu.healthmate.api.RetrofitHelper;
+import com.elenaneacsu.healthmate.model.FirestoreFood;
 import com.elenaneacsu.healthmate.model.FoodDetailResponse;
 import com.elenaneacsu.healthmate.model.FoodRequest;
 import com.elenaneacsu.healthmate.model.Hint;
 import com.elenaneacsu.healthmate.model.Ingredient;
 import com.elenaneacsu.healthmate.model.Measure;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -33,8 +40,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.elenaneacsu.healthmate.utils.Constants.FOOD_CLICKED;
+import static com.elenaneacsu.healthmate.utils.ToastUtil.showToast;
 
-public class FoodDetailActivity extends AppCompatActivity implements View.OnClickListener{
+public class FoodDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView mTextViewFoodName;
     private Spinner mSpinner;
@@ -49,7 +57,19 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
     private SpinnerAdapter mAdapter;
     private String uri;
     private String foodId;
-    private double totalCalories;
+
+    private double totalCaloriesPerFood;
+    private double protein;
+    private double fat;
+    private double carbs;
+    private double dayEatenCals;
+    private double dayCarbs;
+    private double dayProtein;
+    private double dayFat;
+    private String mealType;
+
+    private FirebaseFirestore mFirebaseFirestore;
+    private FirebaseAuth mFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +81,9 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        mFirebaseFirestore = FirebaseFirestore.getInstance();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
         initView();
 
         Bundle bundle = getIntent().getExtras();
@@ -68,6 +91,7 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
             mHint = (Hint) bundle.getSerializable(FOOD_CLICKED);
             foodId = mHint.getFood().getFoodId();
             mTextViewFoodName.setText(mHint.getFood().getLabel());
+            mealType = bundle.getString("meal");
         }
 
         mAdapter = new SpinnerAdapter(this, getMeasures());
@@ -100,36 +124,22 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.btn_calctotalcals:
                 getTotalCals();
                 break;
             case R.id.imagebutton_savedata:
+                saveData();
                 finish();
                 break;
         }
 
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.slide_from_top,R.anim.slide_in_top);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private List<String> getMeasures() {
         List<Measure> measures = new ArrayList<>(mHint.getMeasures());
         List<String> measuresLabels = new ArrayList<>();
-        for(int i=0;i<measures.size();i++) {
+        for (int i = 0; i < measures.size(); i++) {
             measuresLabels.add(measures.get(i).getLabel());
         }
         return measuresLabels;
@@ -147,7 +157,26 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
 
                     @Override
                     public void onNext(FoodDetailResponse foodDetailResponse) {
-                        totalCalories = foodDetailResponse.getTotalNutrients().getEnerckal().getQuantity();
+                        if (foodDetailResponse.getTotalNutrients().getEnerckal() != null) {
+                            totalCaloriesPerFood = foodDetailResponse.getTotalNutrients().getEnerckal().getQuantity();
+                        } else {
+                            totalCaloriesPerFood = 0;
+                        }
+                        if (foodDetailResponse.getTotalNutrients().getProcnt() != null) {
+                            protein = foodDetailResponse.getTotalNutrients().getProcnt().getQuantity();
+                        } else {
+                            protein = 0;
+                        }
+                        if (foodDetailResponse.getTotalNutrients().getFat() != null) {
+                            fat = foodDetailResponse.getTotalNutrients().getFat().getQuantity();
+                        } else {
+                            fat = 0;
+                        }
+                        if (foodDetailResponse.getTotalNutrients().getChocdf() != null) {
+                            carbs = foodDetailResponse.getTotalNutrients().getChocdf().getQuantity();
+                        } else {
+                            carbs = 0;
+                        }
                     }
 
                     @Override
@@ -176,6 +205,65 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
 
         DecimalFormat df = new DecimalFormat("#.##");
         mLayout.setVisibility(View.VISIBLE);
-        mTextViewCalories.setText(String.valueOf(df.format(totalCalories)));
+        mTextViewCalories.setText(String.valueOf(df.format(totalCaloriesPerFood)));
+    }
+
+    private void saveData() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        FirestoreFood fsFood = new FirestoreFood();
+        fsFood.setCalories(totalCaloriesPerFood);
+        fsFood.setLabel(mHint.getFood().getLabel());
+        fsFood.setDescription(mHint.getFood().getBrand());
+        fsFood.setProtein(protein);
+        fsFood.setCarbs(carbs);
+        fsFood.setFat(fat);
+
+        final DocumentReference docRef = mFirebaseFirestore.collection("users").document(mFirebaseAuth.getCurrentUser().getUid())
+                .collection("stats").document(String.valueOf(year)).collection(String.valueOf(month)).document(String.valueOf(day));
+        docRef.collection(mealType).document().set(fsFood);
+
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                dayEatenCals = (double) documentSnapshot.get("eatenCalories");
+                dayCarbs = (double) documentSnapshot.get("carbs");
+                dayProtein = (double) documentSnapshot.get("protein");
+                dayFat = (double) documentSnapshot.get("fat");
+            }
+        });
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dayEatenCals += totalCaloriesPerFood;
+                dayCarbs += carbs;
+                dayFat += fat;
+                dayProtein += protein;
+                docRef.update("eatenCalories", dayEatenCals);
+                docRef.update("carbs", dayCarbs);
+                docRef.update("fat", dayFat);
+                docRef.update("protein", dayProtein);
+            }
+        }, 1000);
+        showToast(this, "Food added!");
+    }
+
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_from_top, R.anim.slide_in_top);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -8,7 +8,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.elenaneacsu.healthmate.model.Food;
+import com.elenaneacsu.healthmate.R;
+import com.elenaneacsu.healthmate.model.FirestoreFood;
 import com.elenaneacsu.healthmate.model.Meal;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
@@ -16,17 +17,13 @@ import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 
 import java.util.List;
-import com.elenaneacsu.healthmate.R;
 
 import static android.view.animation.Animation.RELATIVE_TO_SELF;
 
 public class MealAdapter extends ExpandableRecyclerViewAdapter<MealAdapter.MealViewHolder, MealAdapter.FoodMainViewHolder> {
 
-    FoodClickListener mFoodClickListener;
-
-    public MealAdapter(List<? extends ExpandableGroup> groups, FoodClickListener listener) {
+    public MealAdapter(List<? extends ExpandableGroup> groups) {
         super(groups);
-        mFoodClickListener = listener;
     }
 
     @Override
@@ -46,14 +43,14 @@ public class MealAdapter extends ExpandableRecyclerViewAdapter<MealAdapter.MealV
 
     @Override
     public void onBindChildViewHolder(FoodMainViewHolder holder, int flatPosition, ExpandableGroup group, int childIndex) {
-        final Food food = (Food) group.getItems().get(childIndex);
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFoodClickListener.onOptionsMenuClick(v, food.getFoodId());
-            }
-        };
-        holder.getImageButtonOptions().setOnClickListener(listener);
+        final FirestoreFood food = (FirestoreFood) group.getItems().get(childIndex);
+//        View.OnClickListener listener = new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mFoodClickListener.onOptionsMenuClick(v, food.ge());
+//            }
+//        };
+        //holder.getImageButtonOptions().setOnClickListener(listener);
         holder.bind(food);
     }
 
@@ -77,9 +74,8 @@ public class MealAdapter extends ExpandableRecyclerViewAdapter<MealAdapter.MealV
 
         public void bind(ExpandableGroup meal) {
             mTextViewMealType.setText(meal.getTitle());
-            //double calories = ((Meal) meal).getCalories();
-            //mTextViewMealCalories.setText(String.format("%.2f", calories));
-            mTextViewMealCalories.setText("200");
+            double calories = ((Meal) meal).getCalories();
+            mTextViewMealCalories.setText(String.format("%.2f", calories));
         }
 
         @Override
@@ -128,15 +124,10 @@ public class MealAdapter extends ExpandableRecyclerViewAdapter<MealAdapter.MealV
             return mImageButtonOptions;
         }
 
-        public void bind(Food food) {
+        public void bind(FirestoreFood food) {
             mTextViewFoodLabel.setText(food.getLabel());
-//            if (food.getBrand() == null) {
-//                mTextViewFoodDetails.setText(food.getCategory());
-//            } else {
-//                mTextViewFoodDetails.setText(food.getBrand());
-//            }
-            //mTextViewFoodCalories.setText(String.format("%.2f", food.getNutrients().getENER_KCAL()));
-            mTextViewFoodCalories.setText("100");
+            mTextViewFoodDetails.setText(food.getDescription());
+            mTextViewFoodCalories.setText(String.format("%.2f", food.getCalories()));
         }
     }
 

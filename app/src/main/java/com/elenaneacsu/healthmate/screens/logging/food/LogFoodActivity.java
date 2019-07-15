@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +42,7 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
     private FoodAdapter mFoodAdapter;
     private List<Hint> mHintList = new ArrayList<>();
     private String scanCode;
+    private String mealType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,11 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            mealType = bundle.getString("meal");
         }
 
         setUpRecyclerView();
@@ -124,6 +129,7 @@ public class LogFoodActivity extends AppCompatActivity implements FoodAdapter.It
     public void onItemClick(View view, Hint hint) {
         Intent intent = new Intent(getApplicationContext(), FoodDetailActivity.class);
         intent.putExtra(FOOD_CLICKED, hint);
+        intent.putExtra("meal", mealType);
         startActivity(intent);
     }
 

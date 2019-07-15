@@ -26,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import javax.annotation.Nullable;
 
+import static com.elenaneacsu.healthmate.utils.CaloriesUtils.calculateGoalCalories;
 import static com.elenaneacsu.healthmate.utils.Constants.FRAGMENT;
 import static com.elenaneacsu.healthmate.utils.ToastUtil.showToast;
 
@@ -61,6 +62,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private float goalWeight;
     private int height;
 
+    //private User loggedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -412,49 +414,59 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         final FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
         if (currentUser != null) {
             final DocumentReference documentReference = mFirestore.collection("users").document(currentUser.getUid());
-            documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                    User user = documentSnapshot.toObject(User.class);
-                    String oldName, oldGoal, oldActivityLevel, oldGender;
-                    int oldHeight, oldAge;
-                    float oldGoalWeight, oldCurrentWeight;
-                    if(user!=null) {
-                        oldName = user.getName();
-                        oldGoal = user.getGoal();
-                        oldActivityLevel = user.getActivityLevel();
-                        oldGender = user.getGender();
-                        oldHeight = user.getHeight();
-                        oldAge = user.getAge();
-                        oldGoalWeight = user.getDesiredWeight();
-                        oldCurrentWeight = user.getCurrentWeight();
-                        if (!oldName.equals(name)) {
-                            documentReference.update("name", name);
-                        }
-                        if (!oldGoal.equals(goal)) {
-                            documentReference.update("goal", goal);
-                        }
-                        if (!oldActivityLevel.equals(activityLevel)) {
-                            documentReference.update("activityLevel", activityLevel);
-                        }
-                        if (!oldGender.equals(gender)) {
-                            documentReference.update("gender", gender);
-                        }
-                        if(oldHeight!=height) {
-                            documentReference.update("height", height);
-                        }
-                        if(oldAge!=age) {
-                            documentReference.update("age", age);
-                        }
-                        if(oldCurrentWeight!=currentWeight) {
-                            documentReference.update("currentWeight", currentWeight);
-                        }
-                        if(oldGoalWeight!=goalWeight) {
-                            documentReference.update("desiredWeight", goalWeight);
-                        }
-                    }
-                }
-            });
+//            documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//                @Override
+//                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+//                    User user = documentSnapshot.toObject(User.class);
+//                    String oldName, oldGoal, oldActivityLevel, oldGender;
+//                    int oldHeight, oldAge;
+//                    float oldGoalWeight, oldCurrentWeight;
+//                    if(user!=null) {
+//                        oldName = user.getName();
+//                        oldGoal = user.getGoal();
+//                        oldActivityLevel = user.getActivityLevel();
+//                        oldGender = user.getGender();
+//                        oldHeight = user.getHeight();
+//                        oldAge = user.getAge();
+//                        oldGoalWeight = user.getDesiredWeight();
+//                        oldCurrentWeight = user.getCurrentWeight();
+//                        if (!oldName.equals(name)) {
+//                            documentReference.update("name", name);
+//                        }
+//                        if (!oldGoal.equals(goal)) {
+//                            documentReference.update("goal", goal);
+//                        }
+//                        if (!oldActivityLevel.equals(activityLevel)) {
+//                            documentReference.update("activityLevel", activityLevel);
+//                        }
+//                        if (!oldGender.equals(gender)) {
+//                            documentReference.update("gender", gender);
+//                        }
+//                        if(oldHeight!=height) {
+//                            documentReference.update("height", height);
+//                        }
+//                        if(oldAge!=age) {
+//                            documentReference.update("age", age);
+//                        }
+//                        if(oldCurrentWeight!=currentWeight) {
+//                            documentReference.update("currentWeight", currentWeight);
+//                        }
+//                        if(oldGoalWeight!=goalWeight) {
+//                            documentReference.update("desiredWeight", goalWeight);
+//                        }
+////                        loggedUser = new User(name, goal, activityLevel, gender, age, currentWeight, goalWeight, height);
+////                        calculateGoalCalories(loggedUser);
+//                    }
+//                }
+//            });
+            documentReference.update("name", name);
+            documentReference.update("age", age);
+            documentReference.update("currentWeight", currentWeight);
+            documentReference.update("desiredWeight", goalWeight);
+            documentReference.update("goal", goal);
+            documentReference.update("gender", gender);
+            documentReference.update("height", height);
+            documentReference.update("activityLevel", activityLevel);
         }
     }
 }

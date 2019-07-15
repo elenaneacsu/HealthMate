@@ -119,7 +119,7 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
                 requestMultiplePermissions();
                 break;
             case R.id.btn_edit:
-                Intent intent = new Intent(getContext(), EditProfileActivity.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), EditProfileActivity.class);
                 startActivity(intent);
         }
     }
@@ -282,9 +282,9 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
 
     private void setFields(User user) {
         mTextViewInfo.setText(user.getName()+" | "+user.getAge() + " y.o. " + user.getGender() + " | " + user.getActivityLevel());
-        mTextViewGoalWeight.setText(getString(com.elenaneacsu.healthmate.R.string.goal_weight)+user.getDesiredWeight()+" kg");
-        mTextViewCurrentWeight.setText(getString(com.elenaneacsu.healthmate.R.string.current_weight)+user.getCurrentWeight()+" kg");
-        mTextViewHeight.setText(getString(com.elenaneacsu.healthmate.R.string.height)+user.getHeight()+" cm");
+        mTextViewGoalWeight.setText(getActivity().getString(com.elenaneacsu.healthmate.R.string.goal_weight)+user.getDesiredWeight()+" kg");
+        mTextViewCurrentWeight.setText(getActivity().getString(com.elenaneacsu.healthmate.R.string.current_weight)+user.getCurrentWeight()+" kg");
+        mTextViewHeight.setText(getActivity().getString(com.elenaneacsu.healthmate.R.string.height)+user.getHeight()+" cm");
         Picasso.get().load(user.getPhoto()).into(mCircularImageView);
     }
 

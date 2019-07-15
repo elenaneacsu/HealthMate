@@ -92,9 +92,10 @@ public class LogInActivity extends AppCompatActivity {
                         } else {
                             FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
                             if (currentUser.isEmailVerified()) {
-                                startActivity(new Intent(LogInActivity.this, MainActivity.class));
+                                Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 mSharedPreferences.edit().putBoolean("logged", true).apply();
-                                finish();
+                                startActivity(intent);
                             } else {
                                 Toast.makeText(getApplicationContext(), getString(R.string.verify_email), Toast.LENGTH_LONG).show();
                             }

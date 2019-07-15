@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -13,12 +14,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.elenaneacsu.healthmate.R;
 
+import com.elenaneacsu.healthmate.model.User;
 import com.elenaneacsu.healthmate.model.WeightRecord;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import static com.elenaneacsu.healthmate.utils.CaloriesUtils.calculateGoalCalories;
 import static com.elenaneacsu.healthmate.utils.TimeUtils.stringifiedDate;
 import static com.elenaneacsu.healthmate.utils.ToastUtil.showToast;
 
@@ -74,6 +87,17 @@ public class AddWeightRecordActivity extends AppCompatActivity implements View.O
                     mFirebaseFirestore.collection("users").document(mFirebaseAuth.getCurrentUser().getUid())
                             .collection("weight_history").add(weightRecord);
 
+                    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                    try {
+                        if(formatter.parse(formatter.format(date)).equals(formatter.parse(formatter.format(Calendar.getInstance().getTime())))) {
+                            mFirebaseFirestore.collection("users").document(mFirebaseAuth.getCurrentUser().getUid())
+                                    .update("currentWeight", weightRecord.getWeight());
+                            updateGoalCalories();
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("weight_record",weightRecord);
                     setResult(Activity.RESULT_OK,returnIntent);
@@ -94,6 +118,26 @@ public class AddWeightRecordActivity extends AppCompatActivity implements View.O
     public void onDatePass(Date date) {
         this.date = date;
         mTextViewDate.setText(stringifiedDate(date));
+    }
+
+    private void updateGoalCalories() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        final DocumentReference docRef = mFirebaseFirestore.collection("users").document(mFirebaseAuth.getCurrentUser().getUid())
+                .collection("stats").document(String.valueOf(year)).collection(String.valueOf(month)).document(String.valueOf(day));
+        mFirebaseFirestore.collection("users").document(mFirebaseAuth.getCurrentUser().getUid()).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        User user = documentSnapshot.toObject(User.class);
+                        docRef.update("goalCalories", calculateGoalCalories(user));
+                    }
+                });
+//        CollectionReference colRef = mFirebaseFirestore.collection("users").document(mFirebaseAuth.getCurrentUser().getUid()).collection("stats");
+//        final DocumentReference docRef = colRef.document(String.valueOf(year)).collection(String.valueOf(month)).document(String.valueOf(day));
+//        docRef.get().addOnCompleteListener()
     }
 
     @Override

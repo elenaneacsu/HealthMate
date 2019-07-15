@@ -1,7 +1,7 @@
 package com.elenaneacsu.healthmate.screens.signup.fragments;
 
 
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,7 +26,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
+import static com.elenaneacsu.healthmate.utils.CaloriesUtils.calculateGoalCalories;
 import static com.elenaneacsu.healthmate.utils.Constants.USER;
 import static com.elenaneacsu.healthmate.utils.ToastUtil.showToast;
 
@@ -87,11 +90,12 @@ public class AccountDetailsFragment extends Fragment {
         mButtonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final Context context = getActivity().getApplicationContext();
                 if (mEditTextName.getText().toString().isEmpty() || mEditTextEmail.getText().toString().isEmpty()
                         || mEditTextPassword.getText().toString().isEmpty() || mEditTextConfirmPassword.getText().toString().isEmpty()) {
-                    showToast(getContext(), getString(R.string.supply_values));
+                    showToast(context, getString(R.string.supply_values));
                 } else if (!mEditTextPassword.getText().toString().equals(mEditTextConfirmPassword.getText().toString())) {
-                    showToast(getContext(), getString(R.string.passwords_dont_match));
+                    showToast(context, getString(R.string.passwords_dont_match));
                 } else {
                     final String name = mEditTextName.getText().toString();
                     final String email = mEditTextEmail.getText().toString();
@@ -103,9 +107,9 @@ public class AccountDetailsFragment extends Fragment {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (!task.isSuccessful()) {
                                         if (password.length() < 6) {
-                                            showToast(getContext(), getString(R.string.password_too_short));
+                                            showToast(context, getString(R.string.password_too_short));
                                         } else {
-                                            showToast(getContext(), getString(R.string.signup_error));
+                                            showToast(context, getString(R.string.signup_error));
                                         }
                                     } else {
                                         user.setName(name);
@@ -119,7 +123,7 @@ public class AccountDetailsFragment extends Fragment {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             if (task.isSuccessful()) {
-                                                                showToast(getContext(), getString(R.string.verify_email));
+                                                                showToast(context, getString(R.string.verify_email));
                                                             }
                                                         }
                                                     });
@@ -127,18 +131,39 @@ public class AccountDetailsFragment extends Fragment {
                                         startActivity(new Intent(signUpActivity, LogInActivity.class));
                                         mFirestore.collection("users").document(currentUser.getUid()).set(user);
 
-                                        WeightRecord weightRecord = new WeightRecord();
-                                        weightRecord.setWeight(user.getCurrentWeight());
-                                        weightRecord.setDate(Calendar.getInstance().getTime());
-                                        mFirestore.collection("users").document(currentUser.getUid())
-                                                .collection("weight_history").add(weightRecord);
+                                        logWeight(currentUser);
+                                        //logGoalCalsForCurrentDate(currentUser);
 
-                                        getActivity().finish();
+                                        //getActivity().finish();
                                     }
                                 }
                             });
                 }
             }
         });
+    }
+
+    private void logWeight(FirebaseUser currentUser) {
+        WeightRecord weightRecord = new WeightRecord();
+        weightRecord.setWeight(user.getCurrentWeight());
+        weightRecord.setDate(Calendar.getInstance().getTime());
+        mFirestore.collection("users").document(currentUser.getUid())
+                .collection("weight_history").add(weightRecord);
+    }
+
+
+
+    private void logGoalCalsForCurrentDate(FirebaseUser currentUser) {
+        Map<String, Long> goalCals = new HashMap<>();
+        goalCals.put("goalCalories", calculateGoalCalories(user));
+
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH)+1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        mFirestore.collection("users").document(currentUser.getUid()).collection("stats")
+                .document(String.valueOf(year)).collection(String.valueOf(month)).document(String.valueOf(day)).set(goalCals);
+
     }
 }

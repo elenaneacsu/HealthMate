@@ -16,6 +16,17 @@ public class User implements Parcelable {
     private int height;
     private String photo;
 
+    public User(String name, String goal, String activityLevel, String gender, int age, float currentWeight, float desiredWeight, int height) {
+        this.name = name;
+        this.goal = goal;
+        this.activityLevel = activityLevel;
+        this.gender = gender;
+        this.age = age;
+        this.currentWeight = currentWeight;
+        this.desiredWeight = desiredWeight;
+        this.height = height;
+    }
+
     public String getPhoto() {
         return photo;
     }

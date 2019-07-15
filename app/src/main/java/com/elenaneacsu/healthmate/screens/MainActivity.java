@@ -65,27 +65,60 @@ public class MainActivity extends AppCompatActivity
             int fragment = bundle.getInt(FRAGMENT);
             if(fragment == 0) {
                 initFragment(new ViewProfileFragment());
+            } else {
+                initFragment(new MainFragment());
             }
+        } else {
+            initFragment(new MainFragment());
         }
 
-        initFragment(new MainFragment());
 
         BoomMenuButton boomMenuButton = findViewById(R.id.bmb);
         TextInsideCircleButton.Builder breakfastBuilder = new TextInsideCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_breakfast)
                 .imagePadding(new Rect(10, -10, 5, 20))
-                .normalText("Breakfast");
+                .normalText("Breakfast")
+                .listener(new OnBMClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public void onBoomButtonClick(int index) {
+                        Intent intent = new Intent(MainActivity.this, LogFoodActivity.class);
+                        intent.putExtra("meal", "breakfast");
+                        startActivity(intent);
+                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    }
+                });
         boomMenuButton.addBuilder(breakfastBuilder);
 
         TextInsideCircleButton.Builder lunchBuilder = new TextInsideCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_lunch)
-                .normalText("Lunch");
+                .normalText("Lunch")
+                .listener(new OnBMClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public void onBoomButtonClick(int index) {
+                        Intent intent = new Intent(MainActivity.this, LogFoodActivity.class);
+                        intent.putExtra("meal", "lunch");
+                        startActivity(intent);
+                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    }
+                });
         boomMenuButton.addBuilder(lunchBuilder);
 
         TextInsideCircleButton.Builder dinnerBuilder = new TextInsideCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_dinner)
                 .imagePadding(new Rect(10, -10, 5, 20))
-                .normalText("Dinner");
+                .normalText("Dinner")
+                .listener(new OnBMClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public void onBoomButtonClick(int index) {
+                        Intent intent = new Intent(MainActivity.this, LogFoodActivity.class);
+                        intent.putExtra("meal", "dinner");
+                        startActivity(intent);
+                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    }
+                });
         boomMenuButton.addBuilder(dinnerBuilder);
 
         TextInsideCircleButton.Builder snackBuilder = new TextInsideCircleButton.Builder()
@@ -97,6 +130,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onBoomButtonClick(int index) {
                         Intent intent = new Intent(MainActivity.this, LogFoodActivity.class);
+                        intent.putExtra("meal", "snack");
                         startActivity(intent);
                         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                     }
