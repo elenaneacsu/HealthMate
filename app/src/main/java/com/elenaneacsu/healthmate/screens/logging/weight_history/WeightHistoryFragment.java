@@ -122,10 +122,8 @@ public class WeightHistoryFragment extends Fragment {
     private void setUpChart() {
         List<Entry> vals = new ArrayList<>();
         List<Float> weights = new ArrayList<>();
-        List<String> dates = new ArrayList<>();
-        for(WeightRecord weight : mWeightRecordList) {
-            weights.add(weight.getWeight());
-            dates.add(stringifiedDate(weight.getDate()));
+        for(int i=0;i<mWeightRecordList.size();i++) {
+            weights.add(mWeightRecordList.get(i).getWeight());
         }
         for (int i = 0;i<weights.size();i++) {
             vals.add(new Entry(i, weights.get(i)));
@@ -144,8 +142,6 @@ public class WeightHistoryFragment extends Fragment {
         LineData data = new LineData(dataSets);
         mLineChart.setData(data);
         mLineChart.invalidate();
-
-
     }
 
     private void getDataFromFirestore() {

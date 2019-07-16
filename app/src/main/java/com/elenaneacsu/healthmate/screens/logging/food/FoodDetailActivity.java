@@ -209,8 +209,15 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
         foodRequest.setIngredients(ingredients);
         getFoodNutrients(foodRequest);
 
-        mLayout.setVisibility(View.VISIBLE);
-        mTextViewCalories.setText(String.valueOf(totalCaloriesPerFood));
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mLayout.setVisibility(View.VISIBLE);
+                mTextViewCalories.setText(String.valueOf(totalCaloriesPerFood));
+            }
+        }, 500);
+
     }
 
     private void saveData() {
@@ -238,11 +245,6 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
                 dayCarbs = (long) documentSnapshot.get("carbs");
                 dayProtein = (long) documentSnapshot.get("protein");
                 dayFat = (long) documentSnapshot.get("fat");
-            }
-        });
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
                 dayEatenCals += totalCaloriesPerFood;
                 dayCarbs += carbs;
                 dayFat += fat;
@@ -252,7 +254,7 @@ public class FoodDetailActivity extends AppCompatActivity implements View.OnClic
                 docRef.update("fat", dayFat);
                 docRef.update("protein", dayProtein);
             }
-        }, 1000);
+        });
         showToast(this, "Food added!");
     }
 

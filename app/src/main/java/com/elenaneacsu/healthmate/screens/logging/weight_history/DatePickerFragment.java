@@ -27,9 +27,6 @@ public class DatePickerFragment extends DialogFragment {
     private DatePickerDialog.OnDateSetListener dateSetListener =
             new DatePickerDialog.OnDateSetListener() {
                 public void onDateSet(DatePicker view, int year, int month, int day) {
-//                    Toast.makeText(getActivity(), "The selected date is " + view.getYear() +
-//                            " / " + (view.getMonth() + 1) +
-//                            " / " + view.getDayOfMonth(), Toast.LENGTH_SHORT).show();
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(view.getYear(), view.getMonth(), view.getDayOfMonth());
                     onDataPass.onDatePass(calendar.getTime());

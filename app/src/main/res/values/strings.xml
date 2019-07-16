@@ -121,4 +121,7 @@
     <string name="delete_my_account">Delete my account</string>
     <string name="delete_account_confirmation">Are you sure you want to delete your account?</string>
     <string name="scan">Scan</string>
+    <string name="water_history">Water History</string>
+    <string name="sleep_history">Sleep History</string>
+    <string name="health_advice_statistics">For a healthy lifestyle, you should aim for a 45-30-25 carbs-protein fat ratio</string>
 </resources>

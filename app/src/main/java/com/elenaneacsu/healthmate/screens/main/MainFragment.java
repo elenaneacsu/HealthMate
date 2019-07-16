@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,12 +33,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.DecimalFormat;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.elenaneacsu.healthmate.utils.CaloriesUtils.calculateGoalCalories;
@@ -91,6 +94,7 @@ public class MainFragment extends Fragment implements MealAdapter.FoodClickListe
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -104,14 +108,10 @@ public class MainFragment extends Fragment implements MealAdapter.FoodClickListe
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
                 DividerItemDecoration.VERTICAL));
 
-        getMealsFromFirestore("breakfast", Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        getMealsFromFirestore("lunch", Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        getMealsFromFirestore("snack", Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        getMealsFromFirestore("dinner", Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        meals.add(new Meal("breakfast", breakfastFoodList));
-        meals.add(new Meal("lunch", lunchFoodList));
-        meals.add(new Meal("snack", snackFoodList));
-        meals.add(new Meal("dinner", dinnerFoodList));
+        setUpAdapter(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        setUpAdapter(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        setUpAdapter(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        setUpAdapter(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 
         mMealAdapter = new MealAdapter(meals);
         mRecyclerView.setAdapter(mMealAdapter);
@@ -123,20 +123,17 @@ public class MainFragment extends Fragment implements MealAdapter.FoodClickListe
             }
         });
 
+
         mButtonForward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                getNextDay();
             }
         });
     }
 
 
     private void getMealsFromFirestore(final String meal, int year, int month, int day) {
-//        Calendar calendar = Calendar.getInstance();
-//        int year = calendar.get(Calendar.YEAR);
-//        int month = calendar.get(Calendar.MONTH) + 1;
-//        int day = calendar.get(Calendar.DAY_OF_MONTH);
         DocumentReference docRef = mFirestore.collection("users")
                 .document(mFirebaseAuth.getCurrentUser().getUid())
                 .collection("stats").document(String.valueOf(year))
@@ -199,7 +196,6 @@ public class MainFragment extends Fragment implements MealAdapter.FoodClickListe
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -207,7 +203,7 @@ public class MainFragment extends Fragment implements MealAdapter.FoodClickListe
     }
 
     private void checkDate() {
-        Calendar calendar = Calendar.getInstance();
+        final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -226,7 +222,10 @@ public class MainFragment extends Fragment implements MealAdapter.FoodClickListe
                         protein = (long) documentSnapshot.get("protein");
                         fat = (long) documentSnapshot.get("fat");
                         setViews();
-                        mTextViewDate.setText("Today");
+                        mTextViewDate.setText(stringifiedDate(calendar.getTime()));
+                        if(!stringifiedDate(calendar.getTime()).equals("")) {
+                            mButtonForward.setVisibility(View.INVISIBLE);
+                        }
                     } else {
                         calcGoalCalories();
                         eatenCalories = 0;
@@ -248,12 +247,10 @@ public class MainFragment extends Fragment implements MealAdapter.FoodClickListe
                                 data.put("water", 0L);
 
                                 docRef.set(data);
-//                                docRef.update("goalCalories", goalCalories);
-//                                docRef.update("water", 0L);
                                 setViews();
                             }
                         }, 500);
-                        mTextViewDate.setText("Today");
+                        mTextViewDate.setText(stringifiedDate(calendar.getTime()));
                     }
                 }
             }
@@ -282,10 +279,27 @@ public class MainFragment extends Fragment implements MealAdapter.FoodClickListe
     }
 
     private void getPreviousDay() {
+        int year, month, day;
         Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        if (mTextViewDate.getText().toString().equalsIgnoreCase(stringifiedDate(calendar.getTime()))) {
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH) + 1;
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+        } else {
+            String stringDate = mTextViewDate.getText().toString();
+            DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
+//            DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+            Date date = new Date();
+            try {
+                date = dateFormat.parse(stringDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            calendar.setTime(date);
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH) + 1;
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+        }
         final int newDay, newMonth, newYear;
 
         if (month == 3 || month == 5 || month == 7 || month == 10 || month == 12) {
@@ -313,23 +327,90 @@ public class MainFragment extends Fragment implements MealAdapter.FoodClickListe
         }
 
         Calendar newCalendar = Calendar.getInstance();
-        newCalendar.set(newYear, newMonth, newDay);
+        newCalendar.set(newYear, newMonth - 1, newDay);
+        final Date newDate = new Date();
+        newDate.setTime(newCalendar.getTimeInMillis());
+
+        setUpAdapter(newYear, newMonth, newDay);
+        mMealAdapter.notifyDataSetChanged();
+
+        getNutrients(newYear, newMonth, newDay, newDate);
+
+        mButtonForward.setVisibility(View.VISIBLE);
+    }
+
+    private void getNextDay() {
+        String stringDate = mTextViewDate.getText().toString();
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
+        Date date = null;
+        try {
+            date = dateFormat.parse(stringDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        final int newDay, newMonth, newYear;
+
+        if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10) {
+            if (day == 31) {
+                newDay = 1;
+                newMonth = month + 1;
+            } else {
+                newDay = day + 1;
+                newMonth = month;
+            }
+            newYear = year;
+        } else if (month == 12 && day == 31) {
+            newDay = 1;
+            newMonth = 1;
+            newYear = year + 1;
+        } else {
+            if (day == 30) {
+                newDay = 1;
+                newMonth = month + 1;
+            } else {
+                newDay = day + 1;
+                newMonth = month;
+            }
+            newYear = year;
+        }
+
+        setUpAdapter(newYear, newMonth, newDay);
+        mMealAdapter.notifyDataSetChanged();
+
+        Calendar newCalendar = Calendar.getInstance();
+        newCalendar.set(newYear, newMonth - 1, newDay);
         final Date newDate = newCalendar.getTime();
 
-        getMealsFromFirestore("breakfast", newYear, newMonth, newDay);
-        getMealsFromFirestore("lunch", newYear, newMonth, newDay);
-        getMealsFromFirestore("snack", newYear, newMonth, newDay);
-        getMealsFromFirestore("dinner", newYear, newMonth, newDay);
+        getNutrients(newYear, newMonth, newDay, newDate);
+
+        if (dateFormat.format(newCalendar.getTime()).equalsIgnoreCase(dateFormat.format(Calendar.getInstance().getTime()))) {
+            mButtonForward.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
+    private void setUpAdapter(int year, int month, int day) {
+        getMealsFromFirestore("breakfast", year, month, day);
+        getMealsFromFirestore("lunch", year, month, day);
+        getMealsFromFirestore("snack", year, month, day);
+        getMealsFromFirestore("dinner", year, month, day);
         meals.clear();
         meals.add(new Meal("breakfast", breakfastFoodList));
         meals.add(new Meal("lunch", lunchFoodList));
         meals.add(new Meal("snack", snackFoodList));
         meals.add(new Meal("dinner", dinnerFoodList));
+    }
 
-        mMealAdapter.notifyDataSetChanged();
-
-        CollectionReference colRef = mFirestore.collection("users").document(mFirebaseAuth.getCurrentUser().getUid()).collection("stats");
-        final DocumentReference docRef = colRef.document(String.valueOf(newYear)).collection(String.valueOf(newMonth)).document(String.valueOf(newDay));
+    private void getNutrients(int year, int month, int day, final Date date) {
+        CollectionReference colRef = mFirestore.collection("users")
+                .document(mFirebaseAuth.getCurrentUser().getUid()).collection("stats");
+        final DocumentReference docRef = colRef.document(String.valueOf(year))
+                .collection(String.valueOf(month)).document(String.valueOf(day));
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -344,7 +425,7 @@ public class MainFragment extends Fragment implements MealAdapter.FoodClickListe
                         fat = (long) documentSnapshot.get("fat");
                         setViews();
 
-                        mTextViewDate.setText(stringifiedDate(newDate));
+                        mTextViewDate.setText(stringifiedDate(date));
                     }
                 }
             }
