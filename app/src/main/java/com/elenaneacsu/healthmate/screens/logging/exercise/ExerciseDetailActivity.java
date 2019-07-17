@@ -33,8 +33,8 @@ public class ExerciseDetailActivity extends AppCompatActivity {
     private ImageButton mButtonSave;
 
     private Exercise clickedExercise;
-    private double burnedCalories;
-    private double dayBurnedCalories;
+    private long burnedCalories;
+    private long dayBurnedCalories;
 
     private FirebaseFirestore mFirebaseFirestore;
     private FirebaseAuth mFirebaseAuth;
@@ -93,7 +93,7 @@ public class ExerciseDetailActivity extends AppCompatActivity {
     private void calculateBurnedCalories() {
         if (!("").equals(mEditTextTime.getText().toString())) {
             double time = Double.parseDouble(mEditTextTime.getText().toString());
-            burnedCalories = clickedExercise.getCalories() / 60 * time;
+            burnedCalories = (long) (clickedExercise.getCalories() / 60 * time);
 
         } else {
             burnedCalories = 0;
@@ -118,7 +118,7 @@ public class ExerciseDetailActivity extends AppCompatActivity {
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                dayBurnedCalories = documentSnapshot.getDouble("burnedCalories");
+                dayBurnedCalories = (long) documentSnapshot.get("burnedCalories");
             }
         });
 

@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class Exercise implements Parcelable {
     private String title;
-    private double calories;
+    private long calories;
 
     public Exercise(){}
 
@@ -17,17 +17,17 @@ public class Exercise implements Parcelable {
         this.title = title;
     }
 
-    public double getCalories() {
+    public long getCalories() {
         return calories;
     }
 
-    public void setCalories(double calories) {
+    public void setCalories(long calories) {
         this.calories = calories;
     }
 
     protected Exercise(Parcel in) {
         title = in.readString();
-        calories = in.readDouble();
+        calories = in.readLong();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class Exercise implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
-        dest.writeDouble(calories);
+        dest.writeLong(calories);
     }
 
     @SuppressWarnings("unused")

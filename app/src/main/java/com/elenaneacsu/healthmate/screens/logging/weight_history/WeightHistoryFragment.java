@@ -4,6 +4,7 @@ package com.elenaneacsu.healthmate.screens.logging.weight_history;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -131,7 +132,7 @@ public class WeightHistoryFragment extends Fragment {
 
         LineDataSet dataSet = new LineDataSet(vals, "Weight");
         dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        dataSet.setColor(R.color.colorAccent);
+        dataSet.setColor(Color.rgb(244, 128, 36));
 
         List<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet);

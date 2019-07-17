@@ -288,7 +288,6 @@ public class MainFragment extends Fragment implements MealAdapter.FoodClickListe
         } else {
             String stringDate = mTextViewDate.getText().toString();
             DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
-//            DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
             Date date = new Date();
             try {
                 date = dateFormat.parse(stringDate);

@@ -19,11 +19,15 @@ import com.elenaneacsu.healthmate.R;
 import com.elenaneacsu.healthmate.adapter.SpinnerAdapter;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -49,11 +53,13 @@ public class StatisticsFragment extends Fragment {
     private TextView mTextViewCarbs;
     private TextView mTextViewProtein;
     private TextView mTextViewFat;
+    private TextView mTextViewAdvice;
     private Spinner mSpinner;
 
     private long fat;
     private long protein;
     private long carbs;
+    private List<Long> weeklyCalories;
 
     public StatisticsFragment() {
         // Required empty public constructor
@@ -72,6 +78,7 @@ public class StatisticsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mFirebaseFirestore = FirebaseFirestore.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
+        weeklyCalories = new ArrayList<>();
     }
 
     @Override
@@ -114,6 +121,7 @@ public class StatisticsFragment extends Fragment {
         mTextViewCarbs = view.findViewById(R.id.textview_carbs);
         mTextViewProtein = view.findViewById(R.id.textview_protein);
         mTextViewFat = view.findViewById(R.id.textview_fat);
+        mTextViewAdvice = view.findViewById(R.id.textview_advice);
     }
 
     private List<String> getTypes() {
@@ -139,7 +147,7 @@ public class StatisticsFragment extends Fragment {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
-                    if(documentSnapshot!=null) {
+                    if (documentSnapshot != null) {
                         carbs = (long) documentSnapshot.get("carbs");
                         protein = (long) documentSnapshot.get("protein");
                         fat = (long) documentSnapshot.get("fat");
@@ -161,14 +169,12 @@ public class StatisticsFragment extends Fragment {
         protein = 0;
         getNutrients(year, month, day);
 
-        int i=0;
-        while(i<6) {
+        int i = 0;
+        while (i < 6) {
             calendar.add(Calendar.DAY_OF_MONTH, -1);
             year = calendar.get(Calendar.YEAR);
             month = calendar.get(Calendar.MONTH) + 1;
             day = calendar.get(Calendar.DAY_OF_MONTH);
-            Log.d("tag", "getWeeklyNutrients: month "+month);
-            Log.d("tag", "getWeeklyNutrients: day "+day);
             getNutrients(year, month, day);
             i++;
         }
@@ -192,9 +198,9 @@ public class StatisticsFragment extends Fragment {
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
-                    if(documentSnapshot.exists()) {
+                    if (documentSnapshot.exists()) {
                         carbs += (long) documentSnapshot.get("carbs");
                         protein += (long) documentSnapshot.get("protein");
                         fat += (long) documentSnapshot.get("fat");
@@ -205,10 +211,58 @@ public class StatisticsFragment extends Fragment {
     }
 
     private void getWeeklyCalories() {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        getCalories(year, month, day);
 
+        int i = 0;
+        while (i < 6) {
+            calendar.add(Calendar.DAY_OF_MONTH, -1);
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH) + 1;
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+            getCalories(year, month, day);
+            i++;
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initLineChart();
+            }
+        }, 1000);
+    }
+
+    private void getCalories(int year, int month, int day) {
+        CollectionReference colRef = mFirebaseFirestore.collection("users")
+                .document(mFirebaseAuth.getCurrentUser().getUid())
+                .collection("stats");
+        final DocumentReference docRef = colRef.document(String.valueOf(year))
+                .collection(String.valueOf(month)).document(String.valueOf(day));
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot.exists()) {
+                        Log.d("tag", "onComplete: ");
+                        weeklyCalories.add((long) documentSnapshot.get("eatenCalories") - (long) documentSnapshot.get("burnedCalories"));
+                    }
+                }
+            }
+        });
     }
 
     private void initPieChart(String label) {
+        mPieChart.setVisibility(View.VISIBLE);
+        mLineChart.setVisibility(View.GONE);
+        mTextViewCarbs.setVisibility(View.VISIBLE);
+        mTextViewProtein.setVisibility(View.VISIBLE);
+        mTextViewFat.setVisibility(View.VISIBLE);
+        mTextViewAdvice.setVisibility(View.VISIBLE);
+
         mPieChart.setUsePercentValues(true);
 
         List<PieEntry> entries = new ArrayList<>();
@@ -223,6 +277,37 @@ public class StatisticsFragment extends Fragment {
 
         mPieChart.setData(data);
         mPieChart.invalidate();
+    }
+
+    private void initLineChart() {
+        mLineChart.setVisibility(View.VISIBLE);
+        mPieChart.setVisibility(View.GONE);
+        mTextViewCarbs.setVisibility(View.GONE);
+        mTextViewProtein.setVisibility(View.GONE);
+        mTextViewFat.setVisibility(View.GONE);
+        mTextViewAdvice.setVisibility(View.GONE);
+
+        mLineChart.setPinchZoom(true);
+
+        List<Entry> vals = new ArrayList<>();
+        List<Long> calories = new ArrayList<>(weeklyCalories);
+        for(int i=0;i<calories.size();i++) {
+            vals.add(new Entry(i, calories.get(i)));
+        }
+
+        LineDataSet dataSet = new LineDataSet(vals, "Net Calories");
+        dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        dataSet.setColor(Color.rgb(244, 128, 36));
+
+        List<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(dataSet);
+
+        mLineChart.setDrawGridBackground(false);
+        mLineChart.setDrawBorders(false);
+
+        LineData data = new LineData(dataSets);
+        mLineChart.setData(data);
+        mLineChart.invalidate();
     }
 
     private void setTextForTextview() {

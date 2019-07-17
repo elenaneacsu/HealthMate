@@ -75,7 +75,7 @@ public class MealAdapter extends ExpandableRecyclerViewAdapter<MealAdapter.MealV
         public void bind(ExpandableGroup meal) {
             mTextViewMealType.setText(meal.getTitle());
             double calories = ((Meal) meal).getCalories();
-            mTextViewMealCalories.setText(String.format("%.2f", calories));
+            mTextViewMealCalories.setText(String.format("%.0f", calories));
         }
 
         @Override

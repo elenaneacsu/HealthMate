@@ -186,35 +186,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -289,12 +267,6 @@ public class MainActivity extends AppCompatActivity
                 });
     }
 
-    private void finishActivity() {
-        SharedPreferences sp = getSharedPreferences("LOGIN", MODE_PRIVATE);
-        sp.edit().putBoolean("logged", false).apply();
-        startActivity(new Intent(MainActivity.this, LogInActivity.class));
-        finish();
-    }
 
     private void logout() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -315,5 +287,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
         builder.show();
+    }
+
+    private void finishActivity() {
+        SharedPreferences sp = getSharedPreferences("LOGIN", MODE_PRIVATE);
+        sp.edit().putBoolean("logged", false).apply();
+        startActivity(new Intent(MainActivity.this, LogInActivity.class));
+        finish();
     }
 }

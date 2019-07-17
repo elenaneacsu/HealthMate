@@ -1,6 +1,7 @@
 package com.elenaneacsu.healthmate.screens.logging.water;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -126,7 +127,7 @@ public class WaterHistoryFragment extends Fragment {
 
         BarDataSet dataSet = new BarDataSet(vals, "Water quantity in ml");
         dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        dataSet.setColor(R.color.colorAccent);
+        dataSet.setColor(Color.rgb(244, 128, 36));
 
         List<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet);
